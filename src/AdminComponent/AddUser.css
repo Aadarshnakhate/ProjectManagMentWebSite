@@ -1,0 +1,141 @@
+.add-user-container {
+  max-width: 600px;
+  margin: 2rem auto;
+  padding: 2rem;
+  background-color: #fff;
+  border-radius: 12px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+  text-align: left;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.add-user-container:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 6px 25px rgba(0, 0, 0, 0.15);
+}
+
+.form-title {
+  font-size: 1.8rem;
+  margin-bottom: 1.5rem;
+  color: #333;
+  text-align: center;
+}
+
+.user-form .form-group {
+  margin-bottom: 1.25rem;
+}
+
+.user-form label {
+  display: block;
+  margin-bottom: 0.5rem;
+  font-weight: 500;
+  color: #555;
+}
+
+.user-form input,
+.user-form textarea {
+  width: 100%;
+  padding: 0.75rem 1rem;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+  font-size: 1rem;
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.user-form input:focus,
+.user-form textarea:focus {
+  border-color: #00a99d;
+  box-shadow: 0 0 5px rgba(0, 169, 157, 0.3);
+  outline: none;
+}
+
+.user-form textarea {
+  resize: vertical;
+  min-height: 100px;
+}
+
+.submit-btn {
+  display: inline-block;
+  padding: 0.75rem 1.5rem;
+  background-color: #00a99d;
+  color: #fff;
+  border: none;
+  border-radius: 10px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.submit-btn:hover {
+  background-color: #008877;
+  transform: translateY(-2px);
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .add-user-container {
+    padding: 1.5rem;
+  }
+
+  .form-title {
+    font-size: 1.5rem;
+  }
+}.add-project-container {
+  max-width: 500px;   /* Form ki overall width kam */
+  margin: auto;       /* Center me rakhne ke liye */
+}
+
+.project-form {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.project-form label {
+  font-weight: bold;
+  margin-bottom: 5px;
+}
+
+.project-form input,
+.project-form textarea {
+  width: 90%;             
+  margin: 0 auto;         
+  padding: 5px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  font-size: 14px;
+}
+
+.project-form textarea {
+  resize: vertical;
+  min-height: 80px;
+}
+
+.submit-btn {
+  width: 50%;              /* Button bhi chhota */
+  margin: 10px auto;
+  padding: 10px;
+  background-color: teal;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+.submit-btn:hover {
+  background-color: #006666;
+}
+.project-form label {
+  font-weight: 600;
+  color: #333;         
+  margin: 5px 0;      
+  display: block;      
+}
+h2
+{
+    margin: 0;
+    color:#333;
+}
+

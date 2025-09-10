@@ -1,0 +1,57 @@
+.add-project-container {
+  max-width: 500px;   /* Form ki overall width kam */
+  margin: auto;       /* Center me rakhne ke liye */
+}
+
+.project-form {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.project-form label {
+  font-weight: bold;
+  margin-bottom: 5px;
+}
+
+.project-form input,
+.project-form textarea {
+  width: 90%;             
+  margin: 0 auto;         
+  padding: 5px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  font-size: 14px;
+}
+
+.project-form textarea {
+  resize: vertical;
+  min-height: 80px;
+}
+
+.submit-btn {
+  width: 50%;              /* Button bhi chhota */
+  margin: 10px auto;
+  padding: 10px;
+  background-color: teal;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+.submit-btn:hover {
+  background-color: #006666;
+}
+.project-form label {
+  font-weight: 600;
+  color: #333;         
+  margin: 5px 0;      
+  display: block;      
+}
+h2
+{
+    margin: 0;
+    color:#333;
+}
