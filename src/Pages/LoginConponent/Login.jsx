@@ -17,7 +17,6 @@ function LoginPage() {
     }
 
     if ((username === "admin" && password === "1234")||(username === "xyz" && password === "1231")) {
-      alert("Login successful!");
          localStorage.setItem("username", username);
       setError("");
       if(Role.toLowerCase() ==="admin")

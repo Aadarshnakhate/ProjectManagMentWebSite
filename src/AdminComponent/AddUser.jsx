@@ -17,7 +17,6 @@ function AddUser() {
   const handleSubmit = (e) => {
     e.preventDefault();
     console.log("📌 New User Added:", formData);
-    alert("✅ Project Added Successfully!");
 
     // reset
     setFormData({

@@ -1,4 +1,5 @@
 import "./Dashboard.css";
+
 import { useNavigate } from "react-router-dom";
 import React, { useEffect, useState } from "react";
 import Card from "./CardComponent";
@@ -23,13 +24,18 @@ function Dashboard() {
     localStorage.removeItem("username");
     navigate("/");
   };
-const showUsers = () => {
-    alert("User");
-    navigate("/UserTable"); // or wherever you want to go
+  const showUsers = () => {
+    navigate("/UserTable");
   };
+  const showTask = () => {
+    navigate("/TaskTable");
+  };
+  const showProject = () => {
+    navigate("/project");
+  };
+
   return (
     <div className="dashboard-container">
-      {/* Sidebar */}
       <aside className="sidebar">
         <h2 className="logo">
           <FaBuilding style={{ marginRight: "10px", color: "#00a99d" }} />
@@ -42,11 +48,11 @@ const showUsers = () => {
           {showAddProject && (
             <div
               className="modal-overlay"
-              onClick={() => setShowAddProject(false)} // 👈 overlay click = close
+              onClick={() => setShowAddProject(false)} // To click outside the AddUser
             >
               <div
                 className="modal-content"
-                onClick={(e) => e.stopPropagation()} // 👈 modal ke andar click ignore
+                onClick={(e) => e.stopPropagation()} // To click Ignore thr clic uibsude t Modelcontainer div
               >
                 <button
                   className="close-btn"
@@ -64,11 +70,11 @@ const showUsers = () => {
           {showAddUser && (
             <div
               className="modal-overlay"
-              onClick={() => setShowAddUser(false)} // 👈 overlay click = close
+              onClick={() => setShowAddUser(false)}
             >
               <div
                 className="modal-content"
-                onClick={(e) => e.stopPropagation()} // 👈 modal ke andar click ignore
+                onClick={(e) => e.stopPropagation()}
               >
                 <button
                   className="close-btn"
@@ -94,19 +100,22 @@ const showUsers = () => {
 
         <h2 className="section-title">📊 Dashboard Overview</h2>
         <div className="overview-cards">
-          <Card onClick={showUsers} 
+          <Card
+            onClick={showUsers}
             title="Users"
             value="5"
             color="teal"
             icon={<FaUsers size={50} />}
           />
           <Card
+            onClick={showTask}
             title="Tasks"
             value="3"
             color="yellow"
             icon={<FaTasks size={50} />}
           />
-          <Card 
+          <Card
+            onClick={showProject}
             title="Projects"
             value="12"
             color="red"
