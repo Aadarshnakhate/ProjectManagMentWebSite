@@ -39,7 +39,7 @@ const ProjectOverviewTable = () => {
   return (
     <div>
       <h3>Project Overview</h3>
-      <Table columns={columns} data={data} Title="Project Overview" />
+      <Table columns={columns} data={data} Title="Project Overview" backPath="/UserDashBoard"/>
     </div>
   );
 };

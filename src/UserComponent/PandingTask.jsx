@@ -46,7 +46,7 @@ const PendingTaskTable = () => {
   return (
     <div>
       <h3>Pending Tasks</h3>
-      <Table columns={columns} data={renderData} Title="Pending Tasks" />
+      <Table columns={columns} data={renderData} Title="Pending Tasks"  backPath="/UserDashBoard"/>
     </div>
   );
 };

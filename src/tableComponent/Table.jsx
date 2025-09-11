@@ -2,12 +2,11 @@ import React from "react";
 import "./Table.css";
 import { useNavigate } from "react-router-dom";
 
-// ✅ Rename to 'Table' instead of 'TaskTable'
-const Table = ({ columns, data,Title }) => {
+const Table = ({ columns, data, Title, backPath = "/DashBoard" }) => {
   const navigate = useNavigate();
 
   const handleBack = () => {
-    navigate("/DashBoard");
+    navigate(backPath);
   };
 
   return (

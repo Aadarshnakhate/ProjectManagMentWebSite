@@ -17,7 +17,7 @@ const CompletedTaskTable = () => {
   return (
     <div>
       <h3>Completed Tasks</h3>
-      <Table columns={columns} data={data} Title="Completed Tasks" />
+      <Table columns={columns} data={data} Title="Completed Tasks" backPath="/UserDashBoard" />
     </div>
   );
 };

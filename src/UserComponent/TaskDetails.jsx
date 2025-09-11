@@ -18,7 +18,7 @@ const UserTaskTable = () => {
   return (
     <div>
       <h3>User Tasks</h3>
-      <Table columns={columns} data={data} Title="User Tasks" />
+      <Table columns={columns} data={data} Title="User Tasks" backPath="/UserDashBoard"/>
     </div>
   );
 };
