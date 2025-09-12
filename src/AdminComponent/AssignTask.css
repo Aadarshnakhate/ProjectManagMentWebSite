@@ -1,0 +1,117 @@
+.assign-task-container {
+  position: fixed;
+  top: 50%;
+
+  transform: translate(60%, -50%);
+  z-index: 1000;
+  width: 100vw;
+  max-width: 550px;
+  padding: 2rem;
+  background-color: #fff;
+  border-radius: 12px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+}
+
+.assign-task-card {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+
+.assign-task-title {
+  font-size: 1.75rem;
+  font-weight: bold;
+  text-align: center;
+  color: #333;
+  margin-bottom: 1rem;
+}
+
+.assign-task-card label {
+  font-weight: 600;
+  color: #333;
+  display: block;
+  margin-bottom: 0.5rem;
+}
+
+.assign-task-input {
+  width: 100%;
+  padding: 10px 12px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  font-size: 1rem;
+  font-family: inherit;
+  transition: border 0.3s ease;
+}
+
+.assign-task-input:focus {
+  border-color: #009688;
+  box-shadow: 0 0 5px rgba(0, 150, 136, 0.25);
+  outline: none;
+}
+
+.assign-task-input[type="date"] {
+  color: #555;
+}
+
+.assign-task-button {
+  background-color: #009688;
+  color: white;
+  padding: 12px;
+  border: none;
+  border-radius: 8px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.assign-task-button:hover {
+  background-color: #00796b;
+}
+
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.3);
+  z-index: 999;
+}
+
+.close-btn {
+  position: absolute;
+  top: 12px;
+  right: 16px;
+  background: none;
+  border: none;
+  font-size: 1.25rem;
+  cursor: pointer;
+  color: #555;
+}
+
+.close-btn:hover {
+  color: #000;
+}
+
+@keyframes slideFadeIn {
+  0% {
+    opacity: 0;
+    transform: translate(-50%, -60%);
+  }
+  100% {
+    opacity: 1;
+    transform: translate(-50%, -50%);
+  }
+}
+
+@media (max-width: 768px) {
+  .assign-task-container {
+    width: 90%;
+    padding: 1.5rem;
+  }
+
+  .assign-task-title {
+    font-size: 1.5rem;
+  }
+}

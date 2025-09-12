@@ -21,16 +21,15 @@ function UserDashboard() {
   const [tasks, setTasks] = useState([]);
   const [projects, setProjects] = useState([]);
   const [sidebarOpen, setSidebarOpen] = useState(false);
-  const [loading, setLoading] = useState(true);
+ 
   const Navigate = useNavigate();
 
   useEffect(() => {
     const storedUser = localStorage.getItem("username");
     if (storedUser) setUsername(storedUser);
 
-    // Simulate loading
     setTimeout(() => {
-      // Example data (replace with API calls)
+      
       setTasks([
         { id: 1, title: "Design System Update", status: "In Progress", priority: "High", dueDate: "2024-01-15" },
         { id: 2, title: "User Authentication", status: "Completed", priority: "High", dueDate: "2024-01-10" },
@@ -45,7 +44,7 @@ function UserDashboard() {
         { id: 3, name: "Analytics Dashboard", progress: 90, status: "Near Completion" },
       ]);
       setLoading(false);
-    }, 1000);
+    }, 0);
   }, []);
 
   const handleclick = () => {
@@ -55,7 +54,7 @@ function UserDashboard() {
     Navigate("/taskdetails");
   };
    const handleProject = () => {
-    alert("click");
+ 
     Navigate("/projectdtl");
   };
    const handleCompleted= () => {

@@ -5,7 +5,7 @@
   font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
 }
 
-/* Sidebar */
+
 .sidebar {
   width: 230px;
   background-color: #1e2a38;
@@ -38,7 +38,7 @@
   background-color: #00a99d;
 }
 
-/* Main content */
+
 .main-content {
   flex: 1;
   padding: 25px;
@@ -76,7 +76,7 @@
   color: #333;
 }
 
-/* Cards */
+
 .overview-cards {
   display: flex;
   gap: 25px;
@@ -145,34 +145,29 @@
   user-select: none;
 }
 
-/* Modal overlay background */
 .modal-overlay {
   position: fixed;
   top: 0;
   left: 0;
-  width: 100%;
-  height: 100%;
+  width: 100vw;
+  height: 100vh;
   background: rgba(0,0,0,0.5);
   display: flex;
   justify-content: center;
   align-items: center;
-  z-index: 999;
+  z-index: 9999; 
 }
 
-/* Modal content box */
 .modal-content {
-  background: #fff;
-  padding: 20px;
-  border-radius: 12px;
-  width: 600px;
-  max-height: 80vh;
+  background: white;
+  padding: 2rem;
+  border-radius: 10px;
+  width: 400px;
+  max-height: 90vh;
   overflow-y: auto;
-  box-shadow: 0px 8px 20px rgba(0,0,0,0.25);
-  position: relative;
-  animation: scaleIn 0.3s ease-in-out;  /* smooth open animation */
 }
 
-/* Close button */
+
 .close-btn {
   position: absolute;
   top: 10px;
@@ -183,7 +178,7 @@
   cursor: pointer;
 }
 
-/* Animation for modal */
+
 @keyframes scaleIn {
   from {
     transform: scale(0.8);

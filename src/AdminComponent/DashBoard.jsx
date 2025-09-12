@@ -7,12 +7,14 @@ import Card from "./CardComponent";
 import AddProject from "./AddProject";
 import { FaUsers, FaTasks, FaProjectDiagram, FaBuilding } from "react-icons/fa";
 import AddUser from "./AddUser";
+import NewTaskAssign from "./AssignTask";
 //import UserTable from "./Users";
 
 function Dashboard() {
   const [username, setUsername] = useState("");
   const [showAddProject, setShowAddProject] = useState(false);
   const [showAddUser, setShowAddUser] = useState(false);
+  const [newTaskAssign,setNewTaskAssign]=useState(false);
   useEffect(() => {
     const storedUser = localStorage.getItem("username");
     if (storedUser) {
@@ -65,7 +67,27 @@ function Dashboard() {
             </div>
           )}
 
-          <li>Assign Task</li>
+         <li onClick={() => setNewTaskAssign(true)}>Assign Task</li>
+{newTaskAssign && (
+  <>
+    <div
+      className="modal-overlay"
+              onClick={() => setNewTaskAssign(false)}
+    ></div>
+    <div
+      className="modal-content"
+      onClick={(e) => e.stopPropagation()}
+    >
+      <button
+        className="close-btn"
+                    onClick={() => setNewTaskAssign(false)}
+      >
+        ✖
+      </button>
+      <NewTaskAssign />
+    </div>
+  </>
+)}
           <li onClick={() => setShowAddUser(true)}>Add Uer</li>
           {showAddUser && (
             <div

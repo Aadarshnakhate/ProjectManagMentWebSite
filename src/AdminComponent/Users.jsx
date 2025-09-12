@@ -1,6 +1,11 @@
 import React from 'react';
 import Table from '../tableComponent/Table.jsx';
 
+useEffect(() => {
+    axios.get('https://localhost:7030/api/Users/show')  
+      .then(response => setUsers(response.data))
+      .catch(error => console.error(error));
+  }, [])
 const TaskTable = () => {
   // Define logout function
   const logout = () => {

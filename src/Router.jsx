@@ -7,6 +7,9 @@ import Project from "./AdminComponent/ProjectDetails.jsx";
 import AddProject from "./AdminComponent/AddProject.jsx";
 import UserDashBoard from "./Pages/UserDashBoard/UserDashBoard.jsx";
 import DashBoard from "./AdminComponent/DashBoard.jsx";
+import AssignTaskToNewUser from "./AdminComponent/AssignTask.jsx";
+
+
 
 import Hello from "./UserComponent/Hello.jsx";
 
@@ -30,6 +33,7 @@ const Routers = () => {
         <Route path="/total" element={<Hello />} />
         <Route path="/project" element={<Project />} />
         <Route path="/Hello" element={<Hello />} />
+           <Route path="/AssignTaskToNewUser" element={<AssignTaskToNewUser />} />
             <Route path="/taskdetails" element={<TaskDetails />} />
               <Route path="/CompleteTask" element={<Completed />} />
                 <Route path="/panding" element={<Pending />} />

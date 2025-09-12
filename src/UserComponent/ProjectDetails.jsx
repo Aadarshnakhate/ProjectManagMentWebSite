@@ -12,26 +12,26 @@ const ProjectOverviewTable = () => {
   const data = [
     {
       projectName: 'Alpha',
-      totalTasks: 10,
-      completedTasks: 6,
-      pendingTasks: 4,
+      totalTasks: 2,
+      completedTasks: 1,
+      pendingTasks: 1,
     },
     {
       projectName: 'Beta',
-      totalTasks: 8,
-      completedTasks: 5,
+      totalTasks: 1,
+      completedTasks: 2,
       pendingTasks: 3,
     },
     {
       projectName: 'Gamma',
-      totalTasks: 12,
-      completedTasks: 10,
+      totalTasks: 2,
+      completedTasks: 0,
       pendingTasks: 2,
     },
     {
       projectName: 'Delta',
-      totalTasks: 15,
-      completedTasks: 11,
+      totalTasks: 3,
+      completedTasks: 2,
       pendingTasks: 4,
     },
   ];
