@@ -45,7 +45,7 @@ function Home() {
               <Link
                 to="/Login"
                 className="dropdown-item"
-                onClick={handleAdminLoginAlert}
+               
               >
                 Login
               </Link>

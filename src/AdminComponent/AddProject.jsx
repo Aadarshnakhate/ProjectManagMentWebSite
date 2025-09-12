@@ -18,7 +18,6 @@ function AddProject() {
   const handleSubmit = (e) => {
     e.preventDefault();
     console.log("📌 New Project Added:", formData);
-    alert("✅ Project Added Successfully!");
 
     // reset
     setFormData({

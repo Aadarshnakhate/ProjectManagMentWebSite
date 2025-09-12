@@ -1,70 +1,43 @@
-import React, { useState } from 'react';
-import "./Users.css";
+import React from 'react';
+import Table from '../tableComponent/Table.jsx';
 
 const TaskTable = () => {
-  const [users, setUsers] = useState([
-    {
-      id: 1,
-      name: 'Test User',
-      taskNo: 'T100',
-      project: 'Test Project',
-    },
-  ]);
-
-  // Add a new user row (you can modify this for a form later)
-  const handleAddUser = () => {
-    const newUser = {
-      id: users.length + 1,
-      name: 'New User',
-      taskNo: `T10${users.length + 1}`,
-      project: 'Default Project',
-    };
-    setUsers([...users, newUser]);
+  // Define logout function
+  const logout = () => {
+    alert('Logged out!');
+    // You can add your logout logic here, e.g. clearing tokens, redirecting, etc.
   };
 
-  return (
-    <div className="task-table-container">
-      <h2>UsersTable</h2>
+  const columns = [
+    { header: 'Id', accessor: 'UserID' },
+    { header: 'Name', accessor: 'Name' },
+    { header: 'Task', accessor: 'Number' },
+    { header: 'Projects', accessor: 'Projects' },
+    { header: '        ', accessor: 'view All' }
+  ];
 
-      
-      <table className="task-table">
-        <thead>
-          <tr>
-            <th>ID</th>
-            <th>Name</th>
-            <th>Task No</th>
-            <th>Project Name</th>
-            <th>Actions</th>
-          </tr>
-        </thead>
-        <tbody>
-          {users.length === 0 ? (
-            <tr>
-              <td colSpan="5">Users are not available</td>
-            </tr>
-          ) : (
-            users.map((user) => (
-              <tr key={user.id}>
-                <td>{user.id}</td>
-                <td>{user.name}</td>
-                <td>{user.taskNo}</td>
-                <td>{user.project}</td>
-                <td>
-                  <button
-                    className="view-btn"
-                    onClick={() => alert(`Viewing details for ${user.name}`)}
-                  >
-                    View Details
-                  </button>
-                </td>
-              </tr>
-            ))
-          )}
-        </tbody>
-      </table>
+  const data = [
+    {
+      UserID: 1,
+      Name: 'Aaa',
+      Number: 5,
+      Projects: 2,
+      '        ': (
+        <button style={{ color: 'blue' }} className="logout-btn" onClick={logout}>
+          Logout
+        </button>
+      )
+    }
+  ];
+  
+  
+
+  return (
+    <div>
+      <h3> Task List</h3>
+      <Table columns={columns} data={data} Title='Users' />
     </div>
   );
 };
 
 export default TaskTable;
-
