@@ -1,29 +1,17 @@
-import React, { useState, useRef } from "react";
-import { Link } from "react-router-dom";
+import { useState, useRef } from "react";
+import { useNavigate } from "react-router-dom";
+
 import "./Home.css";
 
 function Home() {
   const [count, setCount] = useState(0);
   const [showDropdown, setShowDropdown] = useState(false);
   const hideTimeout = useRef(null);
+ 
+    const navigate = useNavigate();
 
-  const handleMouseEnter = () => {
-    clearTimeout(hideTimeout.current);
-    setShowDropdown(true);
-  };
-
-  const handleMouseLeave = () => {
-    hideTimeout.current = setTimeout(() => {
-      setShowDropdown(false);
-    }, 200);
-  };
-
-  const handleUserLoginAlert = () => {
-    alert("User Login Clicked");
-  };
-
-  const handleAdminLoginAlert = () => {
-    alert("Admin Login Clicked");
+  const showlogin = () => {
+  navigate("/Login");
   };
 
   return (
@@ -35,24 +23,11 @@ function Home() {
       <div className="main-actions">
         <div
           className="login-container"
-          onMouseEnter={handleMouseEnter}
-          onMouseLeave={handleMouseLeave}
+          
         >
-          <button className="btn login-btn">Login</button>
-
-          {showDropdown && (
-            <div className="dropdown">
-              <Link
-                to="/Login"
-                className="dropdown-item"
-               
-              >
-                Login
-              </Link>
-              {/* <button>Login</button>
-              <button>Login</button> */}
-            </div>
-          )}
+          <button className="btn login-btn" onClick={showlogin}>
+            Login
+          </button>
         </div>
       </div>
 

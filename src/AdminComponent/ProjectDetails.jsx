@@ -1,33 +1,78 @@
-import React from 'react';
-import Table from '../tableComponent/Table.jsx';
+import React, { use, useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import Table from "../tableComponent/Table.jsx";
 
 const TaskTable = () => {
-  // Define logout function
+  const [data, setData] = useState([]); // <-- Add state for data
+  const navigate = useNavigate();
   const logout = () => {
-    alert('Logged out!');
-    // You can add your logout logic here, e.g. clearing tokens, redirecting, etc.
+    alert("Logged out!");
+  };
+  const HandleView = () => {
+    navigate("/team");
+  };
+  const HendleEdit = () => {
+    navigate("/team");
+  };
+  const HendleDelete = () => {
+    navigate("/team");
   };
 
- const columns = [
-  { header: 'ID', accessor: 'ID' },
-  { header: 'Name', accessor: 'Name' },
-  { header: 'Total Task', accessor: 'TotalTask' },
-  { header: 'Pending Task', accessor: 'PendingTask' },
-  { header: 'Completed Task', accessor: 'CompletedTask' }
-];
-const data = [
-  {
-    ID: '1',
-    Name: 'WeatherSite',
-    TotalTask: '5',
-    PendingTask: '2',
-    CompletedTask: '3'
-  }
-];
+  useEffect(() => {
+    fetch("http://localhost:5016/api/Project/Project")
+      .then((res) => res.json())
+      .then((fetchedData) => {
+        const formattedData = fetchedData.map((item, index) => ({
+          ID: item.id?.toString() || index.toString(),
+          ProjectName: item.projectName || "N/A",
+
+          Team: <button onClick={HandleView}>View</button>,
+
+          Details: (
+            <button
+              style={{ color: "green" }}
+              onClick={HendleEdit}
+                          >
+              Details
+            </button>
+          ),
+          Action: (
+            <>
+              <button
+                style={{ backgroundColor: "blue" }}
+                onClick={HendleEdit}
+              >
+                Edit
+              </button>
+              <button
+                style={{ backgroundColor: "Red" }}
+                
+              >
+                Delete
+              </button>
+            </>
+          ),
+        }));
+
+        setData(formattedData);
+      })
+      .catch((error) => {
+        console.error("Error fetching data:", error);
+      });
+  }, []);
+  // Column accessors must match keys in data objects
+  const columns = [
+    { header: "ID", accessor: "ID" },
+    { header: "Project Name", accessor: "ProjectName" },
+    { header: "Team", accessor: "Team" },
+    { header: "Details", accessor: "Details" },
+    { header: "Action", accessor: "Action" },
+  ];
+
   return (
     <div>
-      <h3> Task List</h3>
-      <Table columns={columns} data={data} Title='Projects' />
+      <h3>Task List</h3>
+      <Table columns={columns} data={data} Title="Projects" />
     </div>
   );
 };

@@ -7,6 +7,7 @@ import Project from "./AdminComponent/ProjectDetails.jsx";
 import AddProject from "./AdminComponent/AddProject.jsx";
 import UserDashBoard from "./Pages/UserDashBoard/UserDashBoard.jsx";
 import DashBoard from "./AdminComponent/DashBoard.jsx";
+import Teams from "./AdminComponent/TeamDetails.jsx";
 import AssignTaskToNewUser from "./AdminComponent/AssignTask.jsx";
 
 
@@ -38,6 +39,7 @@ const Routers = () => {
               <Route path="/CompleteTask" element={<Completed />} />
                 <Route path="/panding" element={<Pending />} />
                   <Route path="/projectdtl" element={<Prjctdtl />} />
+                  <Route path="/team" element={<Teams />} />
       </Routes>
     </BrowserRouter>
   );

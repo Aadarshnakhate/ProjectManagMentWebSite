@@ -1,23 +1,23 @@
-import React, { useEffect, useState } from "react";
 import axios from "axios";
-
+import { useState, useEffect } from "react";
 function UsersList() {
-  const [users, setUsers] = useState([]); // Array of objects
+  const [users, setUsers] = useState([]);
 
   useEffect(() => {
-    axios.get("https://localhost:7030/api/Users/show",{
-     withCredentials: true})
-      .then(response => {
-        // Yaha array of objects aayega
+    axios
+      .get("http://localhost:5016/api/Users/show", {
+        withCredentials: true,
+      })
+      .then((response) => {
         setUsers(response.data);
       })
-      .catch(error => console.error(error));
+      .catch((error) => console.error(error));
   }, []);
 
   return (
     <div>
       <h2>User List</h2>
-      
+
       {users.length > 0 ? (
         <table border="1" cellPadding="8">
           <thead>
@@ -29,7 +29,7 @@ function UsersList() {
             </tr>
           </thead>
           <tbody>
-            {users.map(user => (
+            {users.map((user) => (
               <tr key={user.id}>
                 <td>{user.id}</td>
                 <td>{user.name}</td>
