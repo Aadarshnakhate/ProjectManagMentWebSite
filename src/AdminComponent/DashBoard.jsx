@@ -27,7 +27,7 @@ function Dashboard() {
     navigate("/");
   };
   const showUsers = () => {
-    navigate("/UserTable");
+    navigate("/allUsers");
   };
   const showTask = () => {
     navigate("/TaskTable");
@@ -50,11 +50,11 @@ function Dashboard() {
           {showAddProject && (
             <div
               className="modal-overlay"
-              onClick={() => setShowAddProject(false)} // To click outside the AddUser
+              onClick={() => setShowAddProject(false)} 
             >
               <div
                 className="modal-content"
-                onClick={(e) => e.stopPropagation()} // To click Ignore thr clic uibsude t Modelcontainer div
+                onClick={(e) => e.stopPropagation()} 
               >
                 <button
                   className="close-btn"
@@ -111,7 +111,7 @@ function Dashboard() {
         </ul>
       </aside>
 
-      {/* Main Content */}
+  
       <main className="main-content">
         <header className="header">
           <h3>Welcome, {username || "Admin"}</h3>

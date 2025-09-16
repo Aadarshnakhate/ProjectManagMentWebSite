@@ -1,21 +1,40 @@
-import React, { use, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Table from "../tableComponent/Table.jsx";
+import HandleDelete from "./HandleDelete"; 
+
 
 const TaskTable = () => {
-  const [data, setData] = useState([]); // <-- Add state for data
+  const [data, setData] = useState([]);
   const navigate = useNavigate();
+
   const logout = () => {
     alert("Logged out!");
   };
-  const HandleView = () => {
-    navigate("/team");
+
+  const handleView = (id) => {
+    navigate(`/project/${id}/users`);
   };
-  const HendleEdit = () => {
-    navigate("/team");
+
+  const handleEdit = (id) => {
+    navigate(`/AssignTaskToNewUser`);
   };
-  const HendleDelete = () => {
-    navigate("/team");
+
+  const handleDetails = (id) => {
+    alert(`View details for project ID: ${id}`);
+  };
+
+  const HendleDelete = async (projectName) => {
+    debugger;
+    try {
+      await HandleDelete(projectName);
+      console.log("Project deleted successfully!");
+      setData((prevData) =>
+        prevData.filter((item) => item.ProjectName !== projectName)
+      );
+    } catch (error) {
+      console.error("Delete failed:", error);
+    }
   };
 
   useEffect(() => {
@@ -23,31 +42,28 @@ const TaskTable = () => {
       .then((res) => res.json())
       .then((fetchedData) => {
         const formattedData = fetchedData.map((item, index) => ({
-          ID: item.id?.toString() || index.toString(),
+          ProjectId: item.id || "N/A",
+          ID: index + 1,
           ProjectName: item.projectName || "N/A",
-
-          Team: <button onClick={HandleView}>View</button>,
-
+          Team: <button onClick={() => handleView(item.id)}>View</button>,
           Details: (
-            <button
-              style={{ color: "green" }}
-              onClick={HendleEdit}
-                          >
-              Details
+            <button style={{ color: "green" }} onClick={() => HandleNewUser}>
+              Add NewUser
             </button>
           ),
           Action: (
             <>
               <button
                 style={{ backgroundColor: "blue" }}
-                onClick={HendleEdit}
+                onClick={() => handleEdit(item.id)}
               >
                 Edit
               </button>
               <button
-                style={{ backgroundColor: "Red" }}
-                
+                style={{ backgroundColor: "red" }}
+                onClick={() => HendleDelete(item.projectName)}
               >
+                {" "}
                 Delete
               </button>
             </>
@@ -60,7 +76,7 @@ const TaskTable = () => {
         console.error("Error fetching data:", error);
       });
   }, []);
-  // Column accessors must match keys in data objects
+
   const columns = [
     { header: "ID", accessor: "ID" },
     { header: "Project Name", accessor: "ProjectName" },

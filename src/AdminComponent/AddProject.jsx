@@ -1,16 +1,22 @@
 import React, { useState } from "react";
+import axios from "axios";
 import "./AddProject.css";
 
 function AddProject() {
   const [formData, setFormData] = useState({
     projectName: "",
-    clientName: "",
-    technology: "",
-    expectation: "",
     description: "",
     deadline: "",
   });
 
+  try {
+    const response = axios.post(
+      "http://localhost:5016/api/Project/AddProject",
+      formData
+    );
+  } catch (error) {
+    console.error("Error adding project:", error);
+  }
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
@@ -22,9 +28,6 @@ function AddProject() {
     // reset
     setFormData({
       projectName: "",
-      clientName: "",
-      technology: "",
-      expectation: "",
       description: "",
       deadline: "",
     });
@@ -44,31 +47,6 @@ function AddProject() {
             required
           />
         </div>
-
-        <div className="form-group">
-          <label>Client Name:</label>
-          <input
-            type="text"
-            name="clientName"
-            value={formData.clientName}
-            onChange={handleChange}
-            required
-          />
-        </div>
-
-        <div className="form-group">
-          <label>Project Technology:</label>
-          <input
-            type="text"
-            name="technology"
-            value={formData.technology}
-            onChange={handleChange}
-            placeholder="React, .NET, SQL, etc."
-            required
-          />
-        </div>
-
-       
 
         <div className="form-group">
           <label>Description:</label>

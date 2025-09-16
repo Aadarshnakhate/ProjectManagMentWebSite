@@ -18,7 +18,7 @@ function LoginPage() {
       const response = await axios.post(
         "http://localhost:5016/api/Users/LoginCredaintial",
         {
-          Username: username, // DTO property names
+          Username: username,
           Password: password,
         },
         {
