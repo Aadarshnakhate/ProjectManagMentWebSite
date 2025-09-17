@@ -1,5 +1,5 @@
-/* Assign Project Container */
-.assign-project-container {
+/* Edit Page Container */
+.edit-page-container {
   min-height: 100vh;
   background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
   padding: 2rem;
@@ -7,7 +7,7 @@
 }
 
 /* Header */
-.assign-project-header {
+.edit-page-header {
   display: flex;
   align-items: center;
   gap: 1rem;
@@ -35,7 +35,7 @@
   transform: translateY(-2px);
 }
 
-.assign-project-header h1 {
+.edit-page-header h1 {
   color: white;
   font-size: 2rem;
   font-weight: 700;
@@ -43,7 +43,7 @@
 }
 
 /* Content */
-.assign-project-content {
+.edit-page-content {
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 2rem;
@@ -215,9 +215,15 @@
   color: #2d3748;
 }
 
-.user-email {
+.user-email,
+.user-status {
   font-size: 0.8rem;
   color: #718096;
+}
+
+.user-status {
+  color: #38a169;
+  font-weight: 500;
 }
 
 .selected-icon {
@@ -268,6 +274,12 @@
   background: #fed7d7;
   color: #c53030;
   border: 1px solid #feb2b2;
+}
+
+.message.info {
+  background: #bee3f8;
+  color: #2b6cb0;
+  border: 1px solid #90cdf4;
 }
 
 /* Form Actions */
@@ -335,24 +347,24 @@
 
 /* Responsive Design */
 @media (max-width: 1024px) {
-  .assign-project-content {
+  .edit-page-content {
     grid-template-columns: 1fr;
     gap: 1.5rem;
   }
 }
 
 @media (max-width: 768px) {
-  .assign-project-container {
+  .edit-page-container {
     padding: 1rem;
   }
   
-  .assign-project-header {
+  .edit-page-header {
     flex-direction: column;
     align-items: flex-start;
     gap: 1rem;
   }
   
-  .assign-project-header h1 {
+  .edit-page-header h1 {
     font-size: 1.5rem;
   }
   
@@ -373,7 +385,7 @@
 }
 
 @media (max-width: 480px) {
-  .assign-project-container {
+  .edit-page-container {
     padding: 0.5rem;
   }
   

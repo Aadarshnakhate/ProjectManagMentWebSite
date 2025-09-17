@@ -3,7 +3,6 @@ import { useNavigate } from "react-router-dom";
 import Table from "../tableComponent/Table.jsx";
 import HandleDelete from "./HandleDelete"; 
 
-
 const TaskTable = () => {
   const [data, setData] = useState([]);
   const navigate = useNavigate();
@@ -16,16 +15,22 @@ const TaskTable = () => {
     navigate(`/project/${id}/users`);
   };
 
-  const handleEdit = (id) => {
-    navigate(`/AssignTaskToNewUser`);
+  const handleEdit = (project) => {
+    navigate('/EditPage', {
+      state: {
+        id: project.id,
+        projectName: project.projectName,
+        description: project.description,
+        deadline: project.deadline
+      }
+    });
   };
 
   const handleDetails = (id) => {
     alert(`View details for project ID: ${id}`);
   };
 
-  const HendleDelete = async (projectName) => {
-    debugger;
+  const handleDelete = async (projectName) => {
     try {
       await HandleDelete(projectName);
       console.log("Project deleted successfully!");
@@ -47,23 +52,22 @@ const TaskTable = () => {
           ProjectName: item.projectName || "N/A",
           Team: <button onClick={() => handleView(item.id)}>View</button>,
           Details: (
-            <button style={{ color: "green" }} onClick={() => HandleNewUser}>
-              Add NewUser
+            <button style={{ color: "green" }} onClick={() => handleEdit(item)}>
+              Add / Edit
             </button>
           ),
           Action: (
             <>
               <button
-                style={{ backgroundColor: "blue" }}
-                onClick={() => handleEdit(item.id)}
+                style={{ backgroundColor: "blue", color: "white", marginRight: "5px" }}
+                onClick={() => handleEdit(item)}
               >
                 Edit
               </button>
               <button
-                style={{ backgroundColor: "red" }}
-                onClick={() => HendleDelete(item.projectName)}
+                style={{ backgroundColor: "red", color: "white" }}
+                onClick={() => handleDelete(item.projectName)}
               >
-                {" "}
                 Delete
               </button>
             </>

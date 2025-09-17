@@ -9,6 +9,7 @@ import UserDashBoard from "./Pages/UserDashBoard/UserDashBoard.jsx";
 import DashBoard from "./AdminComponent/DashBoard.jsx";
 import Teams from "./AdminComponent/TeamDetails.jsx";
 import AssignTaskToNewUser from "./AdminComponent/AssignTask.jsx";
+import EditPage from "./AdminComponent/EditPage.jsx";
 import GetAll from "./AdminComponent/getAllUser.jsx";
 import Delete from "./AdminComponent/HandleDelete.jsx";
 import Hello from "./UserComponent/Hello.jsx";
@@ -33,6 +34,7 @@ const Routers = () => {
         <Route path="/project" element={<Project />} />
         <Route path="/Hello" element={<Hello />} />
         <Route path="/AssignTaskToNewUser" element={<AssignTaskToNewUser />} />
+        <Route path="/EditPage" element={<EditPage />} />
         <Route path="/taskdetails" element={<TaskDetails />} />
         <Route path="/CompleteTask" element={<Completed />} />
         <Route path="/panding" element={<Pending />} />
