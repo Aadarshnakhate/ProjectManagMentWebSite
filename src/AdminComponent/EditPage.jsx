@@ -1,33 +1,40 @@
-import React, { useState, useEffect } from 'react';
-import { useLocation, useNavigate } from 'react-router-dom';
-import { FaUser, FaProjectDiagram, FaSave, FaArrowLeft, FaSearch, FaCheckCircle, FaUsers } from 'react-icons/fa';
-import './EditPage.css';
+import React, { useState, useEffect } from "react";
+import { useLocation, useNavigate } from "react-router-dom";
+import {
+  FaUser,
+  FaProjectDiagram,
+  FaSave,
+  FaArrowLeft,
+  FaSearch,
+  FaCheckCircle,
+  FaUsers,
+} from "react-icons/fa";
+import "./EditPage.css";
 
 export default function EditPage() {
   const { state } = useLocation();
   const navigate = useNavigate();
-  
+
   const [form, setForm] = useState({
-    projectId: state?.id || '',
-    projectName: state?.projectName || '',
-    description: state?.description || '',
-    deadline: state?.deadline || '',
-    selectedUser: ''
+    projectId: state?.id || "",
+    projectName: state?.projectName || "",
+    description: state?.description || "",
+    deadline: state?.deadline || "",
+    selectedUser: "",
   });
 
-  // Debug: Log the state data when component mounts
   useEffect(() => {
-    console.log('EditPage mounted with state:', state);
-    console.log('Project ID from state:', state?.id);
-    console.log('Project ID type:', typeof state?.id);
+    console.log("EditPage mounted with state:", state);
+    console.log("Project ID from state:", state?.id);
+    console.log("Project ID type:", typeof state?.id);
   }, []);
 
-  const [users, setUsers] = useState([]);
+  const [users, setUsers] = useState([]); // string[]
   const [filteredUsers, setFilteredUsers] = useState([]);
-  const [searchTerm, setSearchTerm] = useState('');
+  const [searchTerm, setSearchTerm] = useState("");
   const [loading, setLoading] = useState(false);
   const [submitting, setSubmitting] = useState(false);
-  const [message, setMessage] = useState({ type: '', text: '' });
+  const [message, setMessage] = useState({ type: "", text: "" });
 
   // Fetch users on component mount
   useEffect(() => {
@@ -36,11 +43,11 @@ export default function EditPage() {
 
   // Filter users based on search term
   useEffect(() => {
-    if (searchTerm.trim() === '') {
+    if (searchTerm.trim() === "") {
       setFilteredUsers(users);
     } else {
-      const filtered = users.filter(user => 
-        user.username.toLowerCase().includes(searchTerm.toLowerCase())
+      const filtered = users.filter((username) =>
+        username.toLowerCase().includes(searchTerm.toLowerCase())
       );
       setFilteredUsers(filtered);
     }
@@ -49,99 +56,109 @@ export default function EditPage() {
   const fetchUsers = async () => {
     setLoading(true);
     try {
-      const response = await fetch('http://localhost:5016/api/Team/Not');
+      const response = await fetch("http://localhost:5016/api/Team/noProject");
       if (response.ok) {
-        const userData = await response.json();
+        const userData = await response.json(); // should be array of strings
+        console.log("Fetched users:", userData);
         setUsers(userData);
         setFilteredUsers(userData);
       } else if (response.status === 404) {
-        setMessage({ type: 'info', text: 'No users available for project assignment' });
+        setMessage({
+          type: "info",
+          text: "No users available for project assignment",
+        });
         setUsers([]);
         setFilteredUsers([]);
       } else {
-        setMessage({ type: 'error', text: 'Failed to fetch users' });
+        setMessage({ type: "error", text: "Failed to fetch users" });
       }
     } catch (error) {
-      console.error('Error fetching users:', error);
-      setMessage({ type: 'error', text: 'Error connecting to server' });
+      console.error("Error fetching users:", error);
+      setMessage({ type: "error", text: "Error connecting to server" });
     } finally {
       setLoading(false);
     }
   };
 
-  const handleUserSelect = (user) => {
-    setForm(prev => ({ ...prev, selectedUser: user.username }));
-    setSearchTerm(user.username);
-    setMessage({ type: '', text: '' });
+  const handleUserSelect = (username) => {
+    setForm((prev) => ({ ...prev, selectedUser: username }));
+    setSearchTerm(username);
+    setMessage({ type: "", text: "" });
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    
+
     if (!form.selectedUser) {
-      setMessage({ type: 'error', text: 'Please select a user to assign the project to' });
+      setMessage({
+        type: "error",
+        text: "Please select a user to assign the project to",
+      });
       return;
     }
 
-    if (!form.projectId || form.projectId === '') {
-      setMessage({ type: 'error', text: 'Project ID is missing. Please go back and try again.' });
+    if (!form.projectId || form.projectId === "") {
+      setMessage({
+        type: "error",
+        text: "Project ID is missing. Please go back and try again.",
+      });
       return;
     }
 
     setSubmitting(true);
-    setMessage({ type: '', text: '' });
+    setMessage({ type: "", text: "" });
 
     try {
-      const url = `http://localhost:5016/api/Team/AssignProject?name=${encodeURIComponent(form.selectedUser)}`;
-      console.log('Making request to:', url);
-      console.log('Selected user:', form.selectedUser);
-      console.log('Project ID:', form.projectId);
-      console.log('Project ID type:', typeof form.projectId);
+      const url = `http://localhost:5016/api/Team/AssignProject?name=${encodeURIComponent(
+        form.selectedUser
+      )}`;
 
-      // Ensure projectId is a valid integer
       const projectId = parseInt(form.projectId);
       if (isNaN(projectId)) {
-        setMessage({ type: 'error', text: 'Invalid project ID' });
+        setMessage({ type: "error", text: "Invalid project ID" });
         setSubmitting(false);
         return;
       }
 
-      console.log('Parsed Project ID:', projectId);
-
       const response = await fetch(url, {
-        method: 'POST',
+        method: "POST",
         headers: {
-          'Content-Type': 'application/json',
+          "Content-Type": "application/json",
         },
-        body: JSON.stringify(projectId)
+        body: JSON.stringify(projectId),
       });
-
-      console.log('Response status:', response.status);
-      console.log('Response ok:', response.ok);
 
       if (response.ok) {
         const successData = await response.text();
-        console.log('Success response:', successData);
-        setMessage({ type: 'success', text: successData || 'Project assigned successfully!' });
+        setMessage({
+          type: "success",
+          text: successData || "Project assigned successfully!",
+        });
         setTimeout(() => {
-          navigate('/project');
+          navigate("/project");
         }, 2000);
       } else {
         const errorData = await response.text();
-        console.log('Error response:', errorData);
-        console.log('Response status:', response.status);
-        setMessage({ type: 'error', text: errorData || `Failed to assign project (Status: ${response.status})` });
+        setMessage({
+          type: "error",
+          text:
+            errorData ||
+            `Failed to assign project (Status: ${response.status})`,
+        });
       }
     } catch (error) {
-      console.error('Error assigning project:', error);
-      setMessage({ type: 'error', text: `Error connecting to server: ${error.message}` });
+      console.error("Error assigning project:", error);
+      setMessage({
+        type: "error",
+        text: `Error connecting to server: ${error.message}`,
+      });
     } finally {
       setSubmitting(false);
     }
   };
 
   const handleBack = () => {
-    navigate('/project');
+    navigate("/project");
   };
 
   return (
@@ -176,7 +193,11 @@ export default function EditPage() {
             </div>
             <div className="detail-item">
               <label>Deadline:</label>
-              <span>{form.deadline ? new Date(form.deadline).toLocaleDateString() : 'Not set'}</span>
+              <span>
+                {form.deadline
+                  ? new Date(form.deadline).toLocaleDateString()
+                  : "Not set"}
+              </span>
             </div>
           </div>
         </div>
@@ -195,31 +216,36 @@ export default function EditPage() {
                 <div className="search-input-wrapper">
                   <FaSearch className="search-icon" />
                   <input
+                    style={{ color: "black" }}
                     type="text"
                     id="userSearch"
-                    placeholder="Search employees by username or email..."
+                    placeholder="Search employees by username..."
                     value={searchTerm}
                     onChange={(e) => setSearchTerm(e.target.value)}
                     className="user-search-input"
                   />
                 </div>
-                
+
                 {searchTerm && (
                   <div className="user-dropdown">
                     {loading ? (
                       <div className="loading-item">Loading employees...</div>
                     ) : filteredUsers.length > 0 ? (
-                      filteredUsers.map((user, index) => (
+                      filteredUsers.map((username, index) => (
                         <div
                           key={index}
-                          className={`user-item ${form.selectedUser === user.username ? 'selected' : ''}`}
-                          onClick={() => handleUserSelect(user)}
+                          className={`user-item ${
+                            form.selectedUser === username ? "selected" : ""
+                          }`}
+                          onClick={() => handleUserSelect(username)}
                         >
                           <div className="user-info">
-                            <div className="user-name">{user.username}</div>
-                            <div className="user-status">Available for assignment</div>
+                            <div className="user-name">{username}</div>
+                            <div className="user-status">
+                              Available for assignment
+                            </div>
                           </div>
-                          {form.selectedUser === user.username && (
+                          {form.selectedUser === username && (
                             <FaCheckCircle className="selected-icon" />
                           )}
                         </div>
@@ -235,14 +261,14 @@ export default function EditPage() {
             {form.selectedUser && (
               <div className="selected-user-display">
                 <FaUser className="selected-user-icon" />
-                <span>Selected Employee: <strong>{form.selectedUser}</strong></span>
+                <span>
+                  Selected Employee: <strong>{form.selectedUser}</strong>
+                </span>
               </div>
             )}
 
             {message.text && (
-              <div className={`message ${message.type}`}>
-                {message.text}
-              </div>
+              <div className={`message ${message.type}`}>{message.text}</div>
             )}
 
             <div className="form-actions">

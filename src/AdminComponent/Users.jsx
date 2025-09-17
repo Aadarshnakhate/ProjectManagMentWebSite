@@ -8,14 +8,17 @@ const User = () => {
 
   useEffect(() => {
     const parsedProjectId = parseInt(projectId, 10);
-     
-   const HandleRemove = (empId, projectId) => {
+
+    const HandleRemove = (empId, projectId) => {
       return () => {
         const parsedProjectId = parseInt(projectId, 10);
         const parsedEmpId = parseInt(empId, 10);
-        fetch(`http://localhost:5016/api/Team/removeUser/${parsedEmpId}/${parsedProjectId}`, {
-          method: "DELETE",
-        })
+        fetch(
+          `http://localhost:5016/api/Team/removeUser/${parsedEmpId}/${parsedProjectId}`,
+          {
+            method: "DELETE",
+          }
+        )
           .then((res) => {
             if (res.ok) {
               setUsers((prevUsers) =>
@@ -28,31 +31,29 @@ const User = () => {
 
           .then((data) => {
             console.log("User removed:", data);
-          }
-
-          )
+          })
           .catch((error) => {
             console.error("Error removing user:", error);
-          }
-          );
+          });
       };
     };
 
-    
-    alert(`Sending projectId to controller: ${parsedProjectId}`);
-    fetch("http://localhost:5016/api/Team", {
+  
+    fetch("http://localhost:5016/api/Team/getByProject", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(parsedProjectId),
     })
       .then((res) => res.json())
       .then((fetchedData) => {
-        const formattedUsers = fetchedData.map((emp) => ({
-          empId: emp.empId || "N/A",
-          name: emp.username || "N/A",
+        console.log("Fetched data:", fetchedData);
+        const formattedUsers = fetchedData.map((emp , index) => ({
+          EmpId: emp.empId,
+          sr: (index + 1).toString(),
+          name: emp.empName,
           action: (
             <button onClick={HandleRemove(emp.empId, parsedProjectId)}>
-               remove
+              remove
             </button>
           ),
         }));
@@ -65,7 +66,7 @@ const User = () => {
   }, [projectId]);
 
   const columns = [
-    { header: "Emp ID", accessor: "empId" },
+    { header: "Emp ID", accessor: "sr" },
     { header: "Name", accessor: "name" },
     { header: "Action", accessor: "action" },
   ];

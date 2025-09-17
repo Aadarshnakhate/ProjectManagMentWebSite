@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Table from "../tableComponent/Table.jsx";
-import HandleDelete from "./HandleDelete"; 
+import HandleDelete from "./HandleDelete";
 
 const TaskTable = () => {
   const [data, setData] = useState([]);
@@ -16,13 +16,13 @@ const TaskTable = () => {
   };
 
   const handleEdit = (project) => {
-    navigate('/EditPage', {
+    navigate("/EditProjectDetails", {
       state: {
         id: project.id,
         projectName: project.projectName,
         description: project.description,
-        deadline: project.deadline
-      }
+        deadline: project.deadline,
+      },
     });
   };
 
@@ -53,13 +53,17 @@ const TaskTable = () => {
           Team: <button onClick={() => handleView(item.id)}>View</button>,
           Details: (
             <button style={{ color: "green" }} onClick={() => handleEdit(item)}>
-              Add / Edit
+              Add User
             </button>
           ),
           Action: (
             <>
               <button
-                style={{ backgroundColor: "blue", color: "white", marginRight: "5px" }}
+                style={{
+                  backgroundColor: "blue",
+                  color: "white",
+                  marginRight: "5px",
+                }}
                 onClick={() => handleEdit(item)}
               >
                 Edit

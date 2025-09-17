@@ -16,19 +16,24 @@ function LoginPage() {
 
     try {
       const response = await axios.post(
-        "http://localhost:5016/api/Users/LoginCredaintial",
-        {
-          Username: username,
-          Password: password,
-        },
-        {
-          headers: { "Content-Type": "application/json" },
-        }
-      );
+  "http://localhost:5016/api/Users/LoginCredaintial",
+  {
+    Username: username,
+    Password: password,
+  },
+  {
+    headers: {
+      "Content-Type": "application/json",
+     
+   
+    }
+  }
+);
       console.log(response.data);
       if (response.data.token) {
+        localStorage.setItem("username", username);
         localStorage.setItem("token", response.data.token);
-        navigate("/dashboard");
+        navigate("/DashBoard");
       } else {
         setResponseMsg(
           response.data.message || "Login failed: No token received"

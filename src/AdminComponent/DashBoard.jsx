@@ -14,7 +14,7 @@ function Dashboard() {
   const [username, setUsername] = useState("");
   const [showAddProject, setShowAddProject] = useState(false);
   const [showAddUser, setShowAddUser] = useState(false);
-  const [newTaskAssign,setNewTaskAssign]=useState(false);
+
   useEffect(() => {
     const storedUser = localStorage.getItem("username");
     if (storedUser) {
@@ -23,7 +23,20 @@ function Dashboard() {
   }, []);
   const navigate = useNavigate();
   const logout = () => {
+    const token = localStorage.getItem("token");
+
+    if (!token) {
+      console.log("No token found! Redirect to login or show error");
+      return;
+    }
+    fetch("http://localhost:5016/logout", {
+      method: "POST",
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
     localStorage.removeItem("username");
+    localStorage.removeItem("token");
     navigate("/");
   };
   const showUsers = () => {
@@ -35,6 +48,9 @@ function Dashboard() {
   const showProject = () => {
     navigate("/project");
   };
+  const HandleUserWorkTable = () => {
+    navigate("/UserWorkTable");
+  }
 
   return (
     <div className="dashboard-container">
@@ -50,11 +66,11 @@ function Dashboard() {
           {showAddProject && (
             <div
               className="modal-overlay"
-              onClick={() => setShowAddProject(false)} 
+              onClick={() => setShowAddProject(false)}
             >
               <div
                 className="modal-content"
-                onClick={(e) => e.stopPropagation()} 
+                onClick={(e) => e.stopPropagation()}
               >
                 <button
                   className="close-btn"
@@ -67,27 +83,8 @@ function Dashboard() {
             </div>
           )}
 
-         <li onClick={() => setNewTaskAssign(true)}>Assign Task</li>
-{newTaskAssign && (
-  <>
-    <div
-      className="modal-overlay"
-              onClick={() => setNewTaskAssign(false)}
-    ></div>
-    <div
-      className="modal-content"
-      onClick={(e) => e.stopPropagation()}
-    >
-      <button
-        className="close-btn"
-                    onClick={() => setNewTaskAssign(false)}
-      >
-        ✖
-      </button>
-      <NewTaskAssign />
-    </div>
-  </>
-)}
+          <li onClick={HandleUserWorkTable}>UserWorkTable</li>
+
           <li onClick={() => setShowAddUser(true)}>Add Uer</li>
           {showAddUser && (
             <div
@@ -111,7 +108,6 @@ function Dashboard() {
         </ul>
       </aside>
 
-  
       <main className="main-content">
         <header className="header">
           <h3>Welcome, {username || "Admin"}</h3>
