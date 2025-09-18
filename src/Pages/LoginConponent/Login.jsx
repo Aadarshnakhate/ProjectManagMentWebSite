@@ -2,6 +2,7 @@ import { useState } from "react";
 import "./Login.css";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import { jwtDecode } from "jwt-decode";  // 👈 import jwt-decode
 
 function LoginPage() {
   const [username, setUsername] = useState("");
@@ -16,24 +17,35 @@ function LoginPage() {
 
     try {
       const response = await axios.post(
-  "http://localhost:5016/api/Users/LoginCredaintial",
-  {
-    Username: username,
-    Password: password,
-  },
-  {
-    headers: {
-      "Content-Type": "application/json",
-     
-   
-    }
-  }
-);
-      console.log(response.data);
+        "http://localhost:5016/api/Users/LoginCredaintial",
+        {
+          Username: username,
+          Password: password,
+        },
+        {
+          headers: { "Content-Type": "application/json" },
+        }
+      );
+
       if (response.data.token) {
+        // Decode the token
+        const decoded = jwtDecode(response.data.token);
+
+        // Extract role from claim
+        const userRole =
+          decoded["http://schemas.microsoft.com/ws/2008/06/identity/claims/role"];
+
+        // Save in localStorage
         localStorage.setItem("username", username);
+        localStorage.setItem("Role", userRole);
         localStorage.setItem("token", response.data.token);
-        navigate("/DashBoard");
+
+        // Navigate based on role
+        if (userRole && userRole.toLowerCase() === "admin") {
+          navigate("/DashBoard");
+        } else {
+          navigate("/UserDashBoard");
+        }
       } else {
         setResponseMsg(
           response.data.message || "Login failed: No token received"

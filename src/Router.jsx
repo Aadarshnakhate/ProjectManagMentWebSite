@@ -28,7 +28,6 @@ const Routers = () => {
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/Login" element={<Login />} />
-
         <Route path="/AddProject" element={<AddProject />}></Route>
         <Route path="/UserDashBoard" element={<UserDashBoard />}></Route>
         <Route path="/UserTable" element={<User />} />
@@ -54,6 +53,7 @@ const Routers = () => {
               <UserWorkTableRoute />
             </ProtectedRoute>
           }
+          
         />
         <Route
           path="/DashBoard"

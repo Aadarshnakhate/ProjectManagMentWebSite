@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
+import "./EditProject.css";
 
 export default function EditProject() {
   const { state } = useLocation();
@@ -59,7 +60,10 @@ export default function EditProject() {
   };
 
   return (
-    <div style={{ padding: "20px", maxWidth: "600px", margin: "auto" }}>
+     <div
+  className="edit-project-container"
+  style={{ padding: "20px", width:"700",maxWidth: "600px", margin: "auto" }}
+>
       <h2>Edit Project</h2>
       {message && (
         <div style={{ marginBottom: "10px", color: "red" }}>{message}</div>

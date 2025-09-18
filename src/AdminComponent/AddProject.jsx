@@ -9,21 +9,22 @@ function AddProject() {
     deadline: "",
   });
 
-  try {
-    const response = axios.post(
-      "http://localhost:5016/api/Project/AddProject",
-      formData
-    );
-  } catch (error) {
-    console.error("Error adding project:", error);
-  }
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log("📌 New Project Added:", formData);
+
+    try {
+      const response = await axios.post(
+        "http://localhost:5016/api/Project/AddProject",
+        formData
+      );
+      console.log("✅ Project added:", response.data);
+    } catch (error) {
+      console.error("❌ Error adding project:", error);
+    }
 
     // reset
     setFormData({
