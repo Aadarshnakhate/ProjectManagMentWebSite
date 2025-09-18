@@ -4,9 +4,15 @@ import Table from "../tableComponent/Table";
 const AllUsersTable = () => {
   const [users, setUsers] = useState([]);
   const [projectFilter, setProjectFilter] = useState("");
-
+  const token = localStorage.getItem("token");
   useEffect(() => {
-    fetch("http://localhost:5016/api/Team/allUsers")
+    fetch("http://localhost:5016/api/Team/allUsers",{
+  headers: {
+    Authorization: `Bearer ${token}`,
+  },
+    method: "GET",
+       
+   } )
       .then((res) => res.json())
       .then((data) => {
         const formattedData = data.map((user) => ({

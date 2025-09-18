@@ -28,19 +28,19 @@ function LoginPage() {
       );
 
       if (response.data.token) {
-        // Decode the token
+     
         const decoded = jwtDecode(response.data.token);
 
-        // Extract role from claim
+       
         const userRole =
           decoded["http://schemas.microsoft.com/ws/2008/06/identity/claims/role"];
 
-        // Save in localStorage
+       
         localStorage.setItem("username", username);
         localStorage.setItem("Role", userRole);
         localStorage.setItem("token", response.data.token);
 
-        // Navigate based on role
+        
         if (userRole && userRole.toLowerCase() === "admin") {
           navigate("/DashBoard");
         } else {

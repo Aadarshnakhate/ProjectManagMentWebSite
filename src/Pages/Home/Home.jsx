@@ -5,7 +5,7 @@ import "./Home.css";
 
 function Home() {
   const [count, setCount] = useState(0);
-  const [showDropdown, setShowDropdown] = useState(false);
+ 
   const hideTimeout = useRef(null);
  
     const navigate = useNavigate();

@@ -26,8 +26,15 @@ const TaskTable = () => {
     });
   };
 
-  const handleDetails = (id) => {
-    alert(`View details for project ID: ${id}`);
+  const handleAddUser = (project) => {
+    navigate("/AddUserProject", {
+      state: {
+        id: project.id,
+        projectName: project.projectName,
+        description: project.description,
+        deadline: project.deadline,
+      },
+    });
   };
 
   const handleDelete = async (projectName) => {
@@ -52,7 +59,10 @@ const TaskTable = () => {
           ProjectName: item.projectName || "N/A",
           Team: <button onClick={() => handleView(item.id)}>View</button>,
           Details: (
-            <button style={{ color: "green" }} onClick={() => handleEdit(item)}>
+            <button
+              style={{ color: "green" }}
+              onClick={() => handleAddUser(item)}
+            >
               Add User
             </button>
           ),

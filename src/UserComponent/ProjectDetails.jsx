@@ -1,45 +1,52 @@
-import React from 'react';
-import Table from '../tableComponent/Table.jsx';
+import React, { useEffect, useState } from "react";
+import Table from "../tableComponent/Table.jsx";
+import axios from "axios";
 
 const ProjectOverviewTable = () => {
+  const [data, setData] = useState([]);
+  const [loading, setLoading] = useState(true);
+
   const columns = [
-    { header: 'Project Name', accessor: 'projectName' },
-    { header: 'Total Tasks', accessor: 'totalTasks' },
-    { header: 'Completed Tasks', accessor: 'completedTasks' },
-    { header: 'Pending Tasks', accessor: 'pendingTasks' },
+    { header: "Project Name", accessor: "projectName" },
+    { header: "Description", accessor: "description" },
+    { header: "Start Date", accessor: "date" },
   ];
 
-  const data = [
-    {
-      projectName: 'Alpha',
-      totalTasks: 2,
-      completedTasks: 1,
-      pendingTasks: 1,
-    },
-    {
-      projectName: 'Beta',
-      totalTasks: 1,
-      completedTasks: 2,
-      pendingTasks: 3,
-    },
-    {
-      projectName: 'Gamma',
-      totalTasks: 2,
-      completedTasks: 0,
-      pendingTasks: 2,
-    },
-    {
-      projectName: 'Delta',
-      totalTasks: 3,
-      completedTasks: 2,
-      pendingTasks: 4,
-    },
-  ];
+  useEffect(() => {
+    const fetchProjects = async () => {
+      try {
+        const response = await axios.get(
+          "http://localhost:5016/api/Team/UserProject"
+        );
+        const mappedData = response.data.map((project) => ({
+          projectName: project.projectName,
+          description: project.description,
+          date: new Date(project.date).toLocaleDateString(),
+        }));
+        setData(mappedData);
+      } catch (error) {
+        console.error("Error fetching project data:", error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchProjects();
+  }, []);
 
   return (
     <div>
       <h3>Project Overview</h3>
-      <Table columns={columns} data={data} Title="Project Overview" backPath="/UserDashBoard"/>
+      {loading ? (
+        <p>Loading...</p>
+      ) : (
+        <Table
+          columns={columns}
+          data={data}
+          Title="Project Overview"
+          backPath="/UserDashBoard"
+        />
+      )}
     </div>
   );
 };

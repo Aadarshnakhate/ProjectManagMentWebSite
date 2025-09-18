@@ -36,7 +36,7 @@ const Routers = () => {
         <Route path="/project" element={<Project />} />
         <Route path="/Hello" element={<Hello />} />
         <Route path="/AssignTaskToNewUser" element={<AssignTaskToNewUser />} />
-        <Route path="/EditPage" element={<EditPage />} />
+        <Route path="/AddUserProject" element={<EditPage />} />
         <Route path="/taskdetails" element={<TaskDetails />} />
         <Route path="/CompleteTask" element={<Completed />} />
         <Route path="/panding" element={<Pending />} />
@@ -53,7 +53,6 @@ const Routers = () => {
               <UserWorkTableRoute />
             </ProtectedRoute>
           }
-          
         />
         <Route
           path="/DashBoard"
