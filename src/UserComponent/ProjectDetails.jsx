@@ -1,28 +1,62 @@
 import React, { useEffect, useState } from "react";
+import { useParams } from "react-router-dom";
 import Table from "../tableComponent/Table.jsx";
 import axios from "axios";
-
+import { useNavigate } from "react-router-dom";
 const ProjectOverviewTable = () => {
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(true);
-
+  const { username } = useParams();
+  console.log("User ID from params:", username);
+  const navigate = useNavigate();
   const columns = [
     { header: "Project Name", accessor: "projectName" },
     { header: "Description", accessor: "description" },
     { header: "Start Date", accessor: "date" },
+    { header: "FileTimeSheet", accessor: "fileTimesheet" },
   ];
-
+  const handleFileClick = (projectId,username) => {
+    console.log("Navigating to timesheet for project ID:", projectId);
+    navigate(`/TimeSheetByProject/${projectId}/${username}`);
+    console.log("Navigated to /TimeSheetByProject with project ID:", projectId);
+    console.log("Project ID type:", typeof projectId);
+  };
   useEffect(() => {
     const fetchProjects = async () => {
       try {
-        const response = await axios.get(
-          "http://localhost:5016/api/Team/UserProject"
+        const response = await axios.post(
+          "http://localhost:5016/api/Team/UserProject",
+          username,
+          {
+            headers: {
+              "Content-Type": "application/json",
+            },
+          }
         );
+
         const mappedData = response.data.map((project) => ({
+          
+          projectId: project.id,
           projectName: project.projectName,
           description: project.description,
           date: new Date(project.date).toLocaleDateString(),
+          fileTimesheet: (
+            <button
+              onClick={() => handleFileClick(project.id,username)}
+              style={{
+                padding: "5px 10px",
+                backgroundColor: "#1D4ED8", // blue color
+                color: "#FFFFFF",
+                border: "none",
+                borderRadius: "5px",
+                cursor: "pointer",
+              }}
+            >
+              View
+            </button>
+          ),
         }));
+
         setData(mappedData);
       } catch (error) {
         console.error("Error fetching project data:", error);
@@ -32,7 +66,7 @@ const ProjectOverviewTable = () => {
     };
 
     fetchProjects();
-  }, []);
+  }, [username]);
 
   return (
     <div>

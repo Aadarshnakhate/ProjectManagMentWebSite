@@ -42,7 +42,7 @@ function Dashboard() {
   const showUsers = () => {
     navigate("/allUsers");
   };
-  const showTask = () => {
+  const showTimeSheet = () => {
     navigate("/TaskTable");
   };
   const showProject = () => {
@@ -126,8 +126,8 @@ function Dashboard() {
             icon={<FaUsers size={50} />}
           />
           <Card
-            onClick={showTask}
-            title="Tasks"
+            onClick={showTimeSheet}
+            title="TimeSheet"
             value="3"
             color="yellow"
             icon={<FaTasks size={50} />}

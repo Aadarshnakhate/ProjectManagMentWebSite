@@ -22,8 +22,11 @@ import User from "./AdminComponent/Users.jsx";
 import ProtectedRoute from "./ProtectedRoute.jsx";
 import { PiCursorText } from "react-icons/pi";
 import Edprjct from "./AdminComponent/EditProject.jsx";
+import UserTimeSheet from "./UserComponent/UserTimeSheet.jsx";
+import EditTimeSheet from "./UserComponent/EditTimeSheet.jsx";
 const Routers = () => {
   return (
+    
     <BrowserRouter>
       <Routes>
         <Route path="/" element={<Home />} />
@@ -40,12 +43,14 @@ const Routers = () => {
         <Route path="/taskdetails" element={<TaskDetails />} />
         <Route path="/CompleteTask" element={<Completed />} />
         <Route path="/panding" element={<Pending />} />
-        <Route path="/projectdtl" element={<Prjctdtl />} />
+        <Route path="/projectdtl/:username" element={<Prjctdtl />} />
         <Route path="/team" element={<Teams />} />
         <Route path="/allUsers" element={<GetAll />} />
         <Route path="/delete/:projectName" element={<Delete />} />
         <Route path="/project/:projectId/users" element={<User />} />
         <Route path="/EditProjectDetails" element={<Edprjct />} />
+        <Route path="/TimeSheetByProject/:projectID/:username" element={<UserTimeSheet/>}/>
+        <Route path="/EditTimeSheet/:timeSheetId" element={<EditTimeSheet/>}/>
         <Route
           path="/UserWorkTable"
           element={
@@ -62,6 +67,7 @@ const Routers = () => {
             </ProtectedRoute>
           }
         />
+        
       </Routes>
     </BrowserRouter>
   );

@@ -18,30 +18,67 @@ import { useNavigate } from "react-router-dom";
 
 function UserDashboard() {
   const [username, setUsername] = useState("User");
+
   const [tasks, setTasks] = useState([]);
   const [projects, setProjects] = useState([]);
   const [sidebarOpen, setSidebarOpen] = useState(false);
- 
+  const [loading, setLoading] = useState(true);
+
   const Navigate = useNavigate();
 
   useEffect(() => {
     const storedUser = localStorage.getItem("username");
+
     if (storedUser) setUsername(storedUser);
 
     setTimeout(() => {
-      
       setTasks([
-        { id: 1, title: "Design System Update", status: "In Progress", priority: "High", dueDate: "2024-01-15" },
-        { id: 2, title: "User Authentication", status: "Completed", priority: "High", dueDate: "2024-01-10" },
-        { id: 3, title: "Database Migration", status: "Pending", priority: "Medium", dueDate: "2024-01-20" },
-        { id: 4, title: "API Documentation", status: "Pending", priority: "Low", dueDate: "2024-01-25" },
-        { id: 5, title: "Performance Optimization", status: "In Progress", priority: "High", dueDate: "2024-01-18" },
+        {
+          id: 1,
+          title: "Design System Update",
+          status: "In Progress",
+          priority: "High",
+          dueDate: "2024-01-15",
+        },
+        {
+          id: 2,
+          title: "User Authentication",
+          status: "Completed",
+          priority: "High",
+          dueDate: "2024-01-10",
+        },
+        {
+          id: 3,
+          title: "Database Migration",
+          status: "Pending",
+          priority: "Medium",
+          dueDate: "2024-01-20",
+        },
+        {
+          id: 4,
+          title: "API Documentation",
+          status: "Pending",
+          priority: "Low",
+          dueDate: "2024-01-25",
+        },
+        {
+          id: 5,
+          title: "Performance Optimization",
+          status: "In Progress",
+          priority: "High",
+          dueDate: "2024-01-18",
+        },
       ]);
 
       setProjects([
         { id: 1, name: "E-commerce Platform", progress: 75, status: "Active" },
         { id: 2, name: "Mobile App", progress: 45, status: "Active" },
-        { id: 3, name: "Analytics Dashboard", progress: 90, status: "Near Completion" },
+        {
+          id: 3,
+          name: "Analytics Dashboard",
+          progress: 90,
+          status: "Near Completion",
+        },
       ]);
       setLoading(false);
     }, 0);
@@ -50,17 +87,16 @@ function UserDashboard() {
   const handleclick = () => {
     Navigate("/Hello");
   };
-   const handleTask = () => {
+  const handleTask = () => {
     Navigate("/taskdetails");
   };
-   const handleProject = () => {
- 
-    Navigate("/projectdtl");
+  const handleProject = () => {
+    Navigate(`/projectdtl/${username}`);
   };
-   const handleCompleted= () => {
+  const handleCompleted = () => {
     Navigate("/CompleteTask");
   };
-const handlepanding= () => {
+  const handlepanding = () => {
     Navigate("/panding");
   };
 
@@ -83,12 +119,9 @@ const handlepanding= () => {
     setSidebarOpen(!sidebarOpen);
   };
 
-  
-
   return (
     <div className="dashboard-container">
- 
-      <div className={`sidebar ${sidebarOpen ? 'sidebar-open' : ''}`}>
+      <div className={`sidebar ${sidebarOpen ? "sidebar-open" : ""}`}>
         <div className="sidebar-header">
           <h3>ProjectHub</h3>
           <button className="sidebar-close" onClick={toggleSidebar}>
@@ -116,13 +149,10 @@ const handlepanding= () => {
             <FaCheckCircle className="nav-icon" />
             Completed
           </a>
-        
         </nav>
       </div>
 
-   
       <div className="main-content">
-        
         <header className="top-header">
           <div className="header-left">
             <button className="menu-toggle" onClick={toggleSidebar}>
@@ -145,55 +175,29 @@ const handlepanding= () => {
           </div>
         </header>
 
-  
         <div className="dashboard-content">
-    
           <section className="stats-section">
             <h2>Dashboard Overview</h2>
             <div className="stats-grid">
-              <Card
-                title="Total Tasks"
-                value={tasks.length}
-                color="blue"
-                icon={<FaTasks />}
-                onclick={handleTask}
-                subtitle="All tasks assigned"
-              />
+             
               <Card
                 title="Active Projects"
-                value={projects.length}
+              
                 color="green"
                 icon={<FaProjectDiagram />}
                 onclick={handleProject}
                 subtitle="Projects in progress"
               />
-              <Card
-                title="Pending Tasks"
-                value={pendingTasks.length}
-                color="orange"
-                icon={<FaHourglassHalf />}
-                onclick={handlepanding}
-                subtitle="Awaiting completion"
-              />
-              <Card
-                title="Completed Tasks"
-                value={completedTasks.length}
-                color="teal"
-                icon={<FaCheckCircle />}
-                onclick={handleCompleted}
-                subtitle="Successfully finished"
-                
-              />
+              
+             
             </div>
           </section>
-
-      
-          
         </div>
       </div>
 
-      
-      {sidebarOpen && <div className="mobile-overlay" onClick={toggleSidebar}></div>}
+      {sidebarOpen && (
+        <div className="mobile-overlay" onClick={toggleSidebar}></div>
+      )}
     </div>
   );
 }

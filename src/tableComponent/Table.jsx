@@ -2,16 +2,16 @@ import React from "react";
 import "./Table.css";
 import { useNavigate } from "react-router-dom";
 
-const Table = ({ columns, data, Title, backPath = "/DashBoard" }) => {
+const Table = ({ columns, data, Title, backPath = "/DashBoard" ,totalHours }) => {
   const navigate = useNavigate();
-
+   console.log("Table received:", totalHours); // here it work fine
   const handleBack = () => {
     navigate(backPath);
   };
 
   return (
     <div className="task-table-container">
-      <button className="back-btn" onClick={handleBack}>
+      <button className="back-btn-B" onClick={handleBack}>
         ← Back
       </button>
       <h2>{Title}</h2>
@@ -36,10 +36,22 @@ const Table = ({ columns, data, Title, backPath = "/DashBoard" }) => {
                   <td key={col.accessor}>{row[col.accessor]}</td>
                 ))}
               </tr>
-            ))
+            ) )
           )}
+        
         </tbody>
+       {/* Footer with totalHours */}
+  {totalHours !== undefined && totalHours !== null &&  data.length !== 0 && (
+    <tfoot>
+      <tr>
+        <td colSpan={columns.length} style={{ textAlign: "right", fontWeight: "bold", padding: "10px" }}>
+          Total Hours: {totalHours}
+        </td>
+      </tr>
+    </tfoot>
+  )}
       </table>
+      
     </div>
   );
 };

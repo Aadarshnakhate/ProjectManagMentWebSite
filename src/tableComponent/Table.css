@@ -1,8 +1,23 @@
 body {
   background-color: #f8f9fa; /* Light gray background for contrast */
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
   margin: 0;
   padding: 0;
+}
+.back-btn-B {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  background: rgba(0, 0, 0, 1);
+  color: white;
+  border: none;
+  padding: 0.75rem 1.5rem;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 0.9rem;
+  font-weight: 500;
+  transition: all 0.3s ease;
+  backdrop-filter: blur(10px);
 }
 
 .task-table-container {
@@ -60,11 +75,9 @@ h2 {
 
 .task-table tr:nth-child(even) {
   background-color: #f1f3f5;
-  
 }
 
-.task-table td
-{
+.task-table td {
   color: Red;
 }
 .task-table tr:hover {
@@ -73,7 +86,7 @@ h2 {
 
 .view-btn {
   background-color: #007bff;
-  color:white;
+  color: white;
   border: none;
   padding: 8px 14px;
   font-size: 14px;
