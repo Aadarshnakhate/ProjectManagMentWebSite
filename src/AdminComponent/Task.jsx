@@ -7,9 +7,12 @@ const TimeSheet = () => {
   const [filteredData, setFilteredData] = useState([]);
   const [userFilter, setUserFilter] = useState("");
   const [projectFilter, setProjectFilter] = useState("");
-  const [dateRangeFilter, setDateRangeFilter] = useState(""); // month, week, day, year
+  const [dateRangeFilter, setDateRangeFilter] = useState("");
+  const [yearFilter, setYearFilter] = useState("");
+  const [monthRangeFilter, setMonthRangeFilter] = useState("");
 
   const [totalHours, setTotalHours] = useState(0);
+
   const columns = [
     { header: "Name", accessor: "UserName" },
     { header: "Project Name", accessor: "projectName" },
@@ -17,25 +20,21 @@ const TimeSheet = () => {
     { header: "Project Description", accessor: "projectdescription" },
     { header: "Date", accessor: "date" },
     { header: "Time", accessor: "hours" },
- 
   ];
 
-  // Fetch data from API
+
   useEffect(() => {
     const fetchProjects = async () => {
       try {
         const response = await axios.get("http://localhost:5016/All");
-        console.log("Hello");
-        console.log("Fetched data:", response.data);
         const formattedData = response.data.map((TimeSheet) => ({
           timeSheetId: TimeSheet.timeSheetId,
-          UserName: TimeSheet.userName,
+          UserName: TimeSheet.emp_Name,
           task: TimeSheet.timeSheetProjectTask,
           projectName: TimeSheet.projectName,
           projectdescription: TimeSheet.timeSheetDescription,
           date: new Date(TimeSheet.date),
           hours: TimeSheet.hours,
-          
         }));
 
         setData(formattedData);
@@ -48,24 +47,47 @@ const TimeSheet = () => {
     fetchProjects();
   }, []);
 
-  // Filtering logic
+
   useEffect(() => {
     let tempData = [...Data];
-    console.log("Filtering data:", tempData);//data befor filter
     const today = new Date();
-    console.log("Today's date:", today); // date with time
 
-    // User filter
+ 
     if (userFilter) {
       tempData = tempData.filter((d) => d.UserName === userFilter);
     }
 
-    // Project filter
+ 
     if (projectFilter) {
       tempData = tempData.filter((d) => d.projectName === projectFilter);
     }
 
-    // Date range filter
+    if (yearFilter) {
+      tempData = tempData.filter(
+        (d) => d.date.getFullYear().toString() === yearFilter
+      );
+    }
+
+
+    if (monthRangeFilter) {
+      const refYear = yearFilter ? parseInt(yearFilter) : today.getFullYear();
+      const refMonth = today.getMonth();
+      const endDate = yearFilter
+        ? new Date(refYear, 11, 31) // Dec 31 of that year
+        : today;
+
+      const startDate = new Date(refYear, refMonth, 1);
+
+      if (monthRangeFilter !== "1") {
+        startDate.setMonth(refMonth - (parseInt(monthRangeFilter) - 1));
+      }
+
+      tempData = tempData.filter(
+        (d) => d.date >= startDate && d.date <= endDate
+      );
+    }
+
+
     if (dateRangeFilter) {
       tempData = tempData.filter((d) => {
         const dataDate = new Date(d.date);
@@ -80,9 +102,9 @@ const TimeSheet = () => {
 
           case "week": {
             const firstDayOfWeek = new Date(today);
-            firstDayOfWeek.setDate(today.getDate() - today.getDay()); 
+            firstDayOfWeek.setDate(today.getDate() - today.getDay());
             const lastDayOfWeek = new Date(firstDayOfWeek);
-            lastDayOfWeek.setDate(firstDayOfWeek.getDate() + 6); 
+            lastDayOfWeek.setDate(firstDayOfWeek.getDate() + 6);
             return dataDate >= firstDayOfWeek && dataDate <= lastDayOfWeek;
           }
 
@@ -101,29 +123,46 @@ const TimeSheet = () => {
       });
     }
 
-    setFilteredData(tempData);
-    console.log("Filtered data Aaadarsh:", tempData); 
-    const totalHours = tempData.reduce(
-  (sum, item) => sum + parseFloat(item.hours),
-  0
-);
-setTotalHours(totalHours);
-console.log("Total Hours:", totalHours);//5
-  }, [userFilter, projectFilter, dateRangeFilter, Data]);
 
-  const handleViewClick = (id) => {
-    console.log("View clicked for ID:", id);
-  };
+    tempData.sort((a, b) => {
+      if (a.date.getFullYear() !== b.date.getFullYear()) {
+        return b.date.getFullYear() - a.date.getFullYear();
+      }
+      return b.date - a.date;
+    });
+
+    setFilteredData(tempData);
+
+    const totalHours = tempData.reduce(
+      (sum, item) => sum + parseFloat(item.hours),
+      0
+    );
+    setTotalHours(totalHours);
+  }, [
+    userFilter,
+    projectFilter,
+    dateRangeFilter,
+    yearFilter,
+    monthRangeFilter,
+    Data,
+  ]);
 
   const uniqueUsers = [...new Set(Data.map((d) => d.UserName))];
   const uniqueProjects = [...new Set(Data.map((d) => d.projectName))];
+  const uniqueYears = [...new Set(Data.map((d) => d.date.getFullYear()))].sort(
+    (a, b) => b - a
+  );
 
   return (
     <div>
       <h3>Project Overview</h3>
 
       <div style={{ display: "flex", gap: "10px", marginBottom: "15px" }}>
-        <select value={userFilter} onChange={(e) => setUserFilter(e.target.value)}>
+    
+        <select
+          value={userFilter}
+          onChange={(e) => setUserFilter(e.target.value)}
+        >
           <option value="">All Users</option>
           {uniqueUsers.map((user) => (
             <option key={user} value={user}>
@@ -132,7 +171,11 @@ console.log("Total Hours:", totalHours);//5
           ))}
         </select>
 
-        <select value={projectFilter} onChange={(e) => setProjectFilter(e.target.value)}>
+   
+        <select
+          value={projectFilter}
+          onChange={(e) => setProjectFilter(e.target.value)}
+        >
           <option value="">All Projects</option>
           {uniqueProjects.map((project) => (
             <option key={project} value={project}>
@@ -141,29 +184,55 @@ console.log("Total Hours:", totalHours);//5
           ))}
         </select>
 
-        <select value={dateRangeFilter} onChange={(e) => setDateRangeFilter(e.target.value)}>
+  
+        <select
+          value={dateRangeFilter}
+          onChange={(e) => setDateRangeFilter(e.target.value)}
+        >
           <option value="">All Dates</option>
           <option value="day">Today</option>
           <option value="week">This Week</option>
           <option value="month">This Month</option>
           <option value="year">This Year</option>
         </select>
+
+     
+        <select
+          value={yearFilter}
+          onChange={(e) => setYearFilter(e.target.value)}
+        >
+          <option value="">All Years</option>
+          {uniqueYears.map((year) => (
+            <option key={year} value={year}>
+              {year}
+            </option>
+          ))}
+        </select>
+
+     
+        <select
+          value={monthRangeFilter}
+          onChange={(e) => setMonthRangeFilter(e.target.value)}
+        >
+          <option value="">All Months</option>
+          <option value="1">This Month</option>
+          <option value="3">Last 3 Months</option>
+          <option value="6">Last 6 Months</option>
+        </select>
       </div>
-       <h2>
-        Total Hours: {totalHours}
-        </h2>  
-        console.log("Total Hours in render:", {totalHours});    
+
+      <h2>Total Hours: {totalHours}</h2>
+
       <Table
         columns={columns}
-       data={filteredData.map(d => ({
-    ...d,
-    date: d.date instanceof Date ? d.date.toLocaleDateString() : d.date,
-  }))}
+        data={filteredData.map((d) => ({
+          ...d,
+          date: d.date instanceof Date ? d.date.toLocaleDateString() : d.date,
+        }))}
         Title="TimeSheet By Project"
         backPath="/DashBoard"
         totalHours={totalHours}
       />
-
     </div>
   );
 };

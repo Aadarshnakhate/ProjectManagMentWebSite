@@ -63,7 +63,7 @@ const TimeSheetByProject = () => {
         console.log("Data", response.data);
         const mappedData = response.data.map((TimeSheet) => ({
           timeSheetId: TimeSheet.timeSheetId,
-          UserName: TimeSheet.userName,
+          UserName: TimeSheet.emp_Name,
           task: TimeSheet.timeSheetProjectTask,
           projectName: TimeSheet.projectName,
 

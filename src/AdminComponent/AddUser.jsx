@@ -1,31 +1,36 @@
 import React, { useState } from "react";
 import "./AddUser.css";
+import axios from "axios";
 
 function AddUser() {
   const [formData, setFormData] = useState({
-    Name: "",
-    UserName: "",
-    technology: "",
-    experience: "",
-    Password: "",
+    emp_Name: "",
+    emp_Email: "",
+    emp_Role: "", // will convert to int
   });
 
   const handleChange = (e) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
+    const { name, value } = e.target;
+    setFormData({
+      ...formData,
+      emp_Role: name === "emp_Role" ? parseInt(value) : formData.emp_Role,
+      [name]: name === "emp_Role" ? parseInt(value) : value,
+    });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log("📌 New User Added:", formData);
+    try {
+      const response = await axios.post("http://localhost:5016/api", formData, {
+        headers: { "Content-Type": "application/json" },
+      });
 
-    // reset
-    setFormData({
-      Name: "",
-      UserName: "",
-      technology: "",
-      experience: "",
-      Password: "",
-    });
+      console.log("✅ User added:", response.data);
+
+      setFormData({ emp_Name: "", emp_Email: "", emp_Role: "" });
+    } catch (error) {
+      console.error("❌ Error adding user:", error);
+    }
   };
 
   return (
@@ -36,41 +41,37 @@ function AddUser() {
           <label>Name:</label>
           <input
             type="text"
-            name="Name"
-            value={formData.Name}
+            name="emp_Name"
+            value={formData.emp_Name}
             onChange={handleChange}
             required
           />
 
-          <div className="form-group">
-            <label>Role:</label>
-            <select
-              name="experience"
-              value={formData.experience}
-              onChange={handleChange}
-              required
-            >
-              <option value="">Role</option>
-              <option value="0-1 years">1</option>
-              <option value="1-3 years">2</option>
-              <option value="3-5 years">3</option>
-              <option value="5+ years">4</option>
-            </select>
-          </div>
-          <div className="form-group">
-            <label> Email:</label>
-            <input
-              type="text"
-              name="Email"
-              value={formData.UserName}
-              onChange={handleChange}
-              required
-            />
-          </div>
+          <label>Role:</label>
+          <select
+            name="emp_Role"
+            value={formData.emp_Role}
+            onChange={handleChange}
+            required
+          >
+            <option value="">Select Role</option>
+            <option value={1}>Admin</option>
+            <option value={2}>User</option>
+            <option value={3}>Manager</option>
+          </select>
+
+          <label>Email:</label>
+          <input
+            type="text"
+            name="emp_Email"
+            value={formData.emp_Email}
+            onChange={handleChange}
+            required
+          />
         </div>
 
         <button type="submit" className="submit-btn">
-          Add AddUser
+          Add User
         </button>
       </form>
     </div>

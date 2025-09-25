@@ -51,6 +51,10 @@ function Dashboard() {
   const HandleUserWorkTable = () => {
     navigate("/UserWorkTable");
   }
+  const HandleAllProjectHistory=()=>
+  {
+    navigate("/AllProjectHistory");
+  }
 
   return (
     <div className="dashboard-container">
@@ -84,7 +88,7 @@ function Dashboard() {
           )}
 
           <li onClick={HandleUserWorkTable}>UserWorkTable</li>
-
+          <li onClick={HandleAllProjectHistory}>All Project</li>
           <li onClick={() => setShowAddUser(true)}>Add Uer</li>
           {showAddUser && (
             <div

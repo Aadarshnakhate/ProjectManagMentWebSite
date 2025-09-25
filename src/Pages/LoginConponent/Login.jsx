@@ -2,7 +2,7 @@ import { useState } from "react";
 import "./Login.css";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
-import { jwtDecode } from "jwt-decode";  // 👈 import jwt-decode
+import { jwtDecode } from "jwt-decode"; // 👈 import jwt-decode
 
 function LoginPage() {
   const [username, setUsername] = useState("");
@@ -28,19 +28,24 @@ function LoginPage() {
       );
 
       if (response.data.token) {
-     
         const decoded = jwtDecode(response.data.token);
 
-       
         const userRole =
-          decoded["http://schemas.microsoft.com/ws/2008/06/identity/claims/role"];
+          decoded[
+            "http://schemas.microsoft.com/ws/2008/06/identity/claims/role"
+          ];
 
-       
-        localStorage.setItem("username", username);
+        const Name =
+          decoded["http://schemas.xmlsoap.org/ws/2005/05/identity/claims/name"];
+
+        const empId = decoded["EmpId"];
+
+        localStorage.setItem("username", Name);
         localStorage.setItem("Role", userRole);
+        localStorage.setItem("Id", empId);
+        console.log("EmpId from login page",empId);
         localStorage.setItem("token", response.data.token);
 
-        
         if (userRole && userRole.toLowerCase() === "admin") {
           navigate("/DashBoard");
         } else {

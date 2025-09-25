@@ -56,9 +56,13 @@ export default function EditPage() {
   const fetchUsers = async () => {
     setLoading(true);
     try {
-      const response = await fetch("http://localhost:5016/api/Team/noProject");
+     console.log("Project ID from state:", state?.id);
+
+const response = await fetch(`http://localhost:5016/api/Team/noProject?projectId=${state?.id}`);
+
+      console.log(response);
       if (response.ok) {
-        const userData = await response.json(); // should be array of strings
+        const userData = await response.json(); 
         console.log("Fetched users:", userData);
         setUsers(userData);
         setFilteredUsers(userData);

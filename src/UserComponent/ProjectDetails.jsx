@@ -15,11 +15,14 @@ const ProjectOverviewTable = () => {
     { header: "Start Date", accessor: "date" },
     { header: "FileTimeSheet", accessor: "fileTimesheet" },
   ];
-  const handleFileClick = (projectId,username) => {
+  const handleFileClick = (projectId, username) => {
     console.log("Navigating to timesheet for project ID:", projectId);
     navigate(`/TimeSheetByProject/${projectId}/${username}`);
     console.log("Navigated to /TimeSheetByProject with project ID:", projectId);
     console.log("Project ID type:", typeof projectId);
+  };
+  const HandleAddUser = (projectID, username) => {
+    navigate(`/AddTimeSheet/${username}/${projectID}`);
   };
   useEffect(() => {
     const fetchProjects = async () => {
@@ -35,25 +38,40 @@ const ProjectOverviewTable = () => {
         );
 
         const mappedData = response.data.map((project) => ({
-          
           projectId: project.id,
           projectName: project.projectName,
           description: project.description,
           date: new Date(project.date).toLocaleDateString(),
           fileTimesheet: (
-            <button
-              onClick={() => handleFileClick(project.id,username)}
-              style={{
-                padding: "5px 10px",
-                backgroundColor: "#1D4ED8", // blue color
-                color: "#FFFFFF",
-                border: "none",
-                borderRadius: "5px",
-                cursor: "pointer",
-              }}
-            >
-              View
-            </button>
+            <div style={{ display: "flex", gap: "8px" }}>
+              <button
+                onClick={() => handleFileClick(project.id, username)}
+                style={{
+                  padding: "5px 10px",
+                  backgroundColor: "#1D4ED8",
+                  color: "#FFFFFF",
+                  border: "none",
+                  borderRadius: "5px",
+                  cursor: "pointer",
+                }}
+              >
+                View
+              </button>
+
+              <button
+                onClick={() => HandleAddUser(project.id, username)}
+                style={{
+                  padding: "5px 10px",
+                  backgroundColor: "#1D4ED8",
+                  color: "#FFFFFF",
+                  border: "none",
+                  borderRadius: "5px",
+                  cursor: "pointer",
+                }}
+              >
+                Add TimeSheet
+              </button>
+            </div>
           ),
         }));
 

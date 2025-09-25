@@ -12,10 +12,12 @@ const TaskTable = () => {
   };
 
   const handleView = (id) => {
+    console.log("Id", id);
     navigate(`/project/${id}/users`);
   };
 
   const handleEdit = (project) => {
+    console.log("Project ", project);
     navigate("/EditProjectDetails", {
       state: {
         id: project.id,
@@ -50,9 +52,14 @@ const TaskTable = () => {
   };
 
   useEffect(() => {
-    fetch("http://localhost:5016/api/Project/Project")
-      .then((res) => res.json())
-      .then((fetchedData) => {
+    const fetchData = async () => {
+      try {
+        const res = await fetch("http://localhost:5016/api/Project/Project");
+        console.log("api=", res);
+        const ApiData = await res.json();
+        console.log("api=", ApiData);
+        const fetchedData = ApiData.filter((i) => i.isDeleted === 1);
+        console.log("await res,jason()", fetchedData);
         const formattedData = fetchedData.map((item, index) => ({
           ProjectId: item.id || "N/A",
           ID: index + 1,
@@ -87,12 +94,14 @@ const TaskTable = () => {
             </>
           ),
         }));
-
+        console.log("formate data ", formattedData);
         setData(formattedData);
-      })
-      .catch((error) => {
+      } catch (error) {
         console.error("Error fetching data:", error);
-      });
+      }
+    };
+
+    fetchData();
   }, []);
 
   const columns = [

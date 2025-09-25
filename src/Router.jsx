@@ -20,19 +20,21 @@ import Pending from "./UserComponent/PandingTask.jsx";
 import Prjctdtl from "./UserComponent/ProjectDetails.jsx";
 import User from "./AdminComponent/Users.jsx";
 import ProtectedRoute from "./ProtectedRoute.jsx";
-import { PiCursorText } from "react-icons/pi";
 import Edprjct from "./AdminComponent/EditProject.jsx";
 import UserTimeSheet from "./UserComponent/UserTimeSheet.jsx";
 import EditTimeSheet from "./UserComponent/EditTimeSheet.jsx";
+import AddTimeSheet from "./UserComponent/AddUserTimeSheet.jsx";
+import AllProject from "./AdminComponent/AllProjectHistory.jsx";
+
 const Routers = () => {
   return (
-    
     <BrowserRouter>
       <Routes>
+        <Route path="/AllProjectHistory" element={<AllProject />} />
         <Route path="/" element={<Home />} />
         <Route path="/Login" element={<Login />} />
-        <Route path="/AddProject" element={<AddProject />}></Route>
-        <Route path="/UserDashBoard" element={<UserDashBoard />}></Route>
+        <Route path="/AddProject" element={<AddProject />} />
+        <Route path="/UserDashBoard" element={<UserDashBoard />} />
         <Route path="/UserTable" element={<User />} />
         <Route path="/TaskTable" element={<Task />} />
         <Route path="/total" element={<Hello />} />
@@ -49,8 +51,12 @@ const Routers = () => {
         <Route path="/delete/:projectName" element={<Delete />} />
         <Route path="/project/:projectId/users" element={<User />} />
         <Route path="/EditProjectDetails" element={<Edprjct />} />
-        <Route path="/TimeSheetByProject/:projectID/:username" element={<UserTimeSheet/>}/>
-        <Route path="/EditTimeSheet/:timeSheetId" element={<EditTimeSheet/>}/>
+        <Route
+          path="/TimeSheetByProject/:projectID/:username"
+          element={<UserTimeSheet />}
+        />
+        <Route path="/EditTimeSheet/:timeSheetId" element={<EditTimeSheet />} />
+        <Route path="/AddTimeSheet/:name/:projectID" element={<AddTimeSheet />} />
         <Route
           path="/UserWorkTable"
           element={
@@ -59,6 +65,8 @@ const Routers = () => {
             </ProtectedRoute>
           }
         />
+
+        {/* Nested Dashboard route */}
         <Route
           path="/DashBoard"
           element={
@@ -66,8 +74,9 @@ const Routers = () => {
               <DashBoard />
             </ProtectedRoute>
           }
-        />
-        
+        >
+          <Route path="AllProjectHistory" element={<AllProject />} />
+        </Route>
       </Routes>
     </BrowserRouter>
   );
