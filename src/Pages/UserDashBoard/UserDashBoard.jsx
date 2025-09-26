@@ -100,10 +100,25 @@ function UserDashboard() {
     Navigate("/panding");
   };
 
-  const Logout = () => {
+ 
+ const logout = () => {
+    const token = localStorage.getItem("token");
+
+    if (!token) {
+      console.log("No token found! Redirect to login or show error");
+      return;
+    }
+    fetch("http://localhost:5016/logout", {   ///This API Use To set Data in UserWorkTable
+      method: "POST",
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
     localStorage.removeItem("username");
+    localStorage.removeItem("token");
     Navigate("/Login");
   };
+
 
   const pendingTasks = tasks.filter(
     (t) => t.status.toLowerCase() !== "completed"
@@ -169,7 +184,7 @@ function UserDashboard() {
               <FaUser />
               <span>{username}</span>
             </div>
-            <button className="logout-btn" onClick={Logout}>
+            <button className="logout-btn" onClick={logout}>
               <FaSignOutAlt />
             </button>
           </div>

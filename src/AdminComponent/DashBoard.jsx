@@ -89,7 +89,7 @@ function Dashboard() {
 
           <li onClick={HandleUserWorkTable}>UserWorkTable</li>
           <li onClick={HandleAllProjectHistory}>All Project</li>
-          <li onClick={() => setShowAddUser(true)}>Add Uer</li>
+          <li onClick={() => setShowAddUser(true)}>Add User</li>
           {showAddUser && (
             <div
               className="modal-overlay"
