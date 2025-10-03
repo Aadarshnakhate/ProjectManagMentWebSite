@@ -42,10 +42,14 @@ const TaskTable = () => {
   const handleDelete = async (projectName) => {
     try {
       await HandleDelete(projectName);
-      console.log("Project deleted successfully!");
+      
       setData((prevData) =>
         prevData.filter((item) => item.ProjectName !== projectName)
       );
+      setTimeout(() => {
+         alert(res.data.message);
+        window.location.reload();
+      }, 2000);
     } catch (error) {
       console.error("Delete failed:", error);
     }

@@ -33,10 +33,12 @@ const AllProjectHistory = () => {
       setLoading(true);
       try {
         const res = await axios.get(
-          `http://localhost:5016/api/Project/GetAllProjects?status=${filter}`
+          `http://localhost:5016/api/Project/GetAllProjects?statusString=${filter}`
         );
-
-        const formattedData = res.data.map((p) => ({
+         console.log("Fetched projects:", res.data.status);
+         console.log(res.data.message);
+        console.log("Fetched projects:", res.data.project);
+         const formattedData = res.data.project.map((p) => ({
           ...p,
           date: formatDate(p.date),
           deletedAt: formatDate(p.deletedAt),

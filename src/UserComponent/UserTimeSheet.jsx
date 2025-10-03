@@ -35,13 +35,18 @@ const TimeSheetByProject = () => {
 
   const handleTimeSheetDelete = async (timeSheetId) => {
     try{const res = await axios.delete(
-      `http://localhost:5016/Delete?TimeSheetId=${timeSheetId}`
+      `http://localhost:5016/api/timesheet/Delete?TimeSheetId=${timeSheetId}`
     
     );
     console.log(res);
      if (res.status === 200) {
-        setMessage("Your Data was successfully deleted!");
+       setTimeout(() => {
+      
         setMessageColor("green");
+        setMessage(res.data.message || "TimeSheet deleted successfully.");
+        window.location.reload();
+       }, 2000);
+      
       } else {
         setMessage("Something went wrong!");
         setMessageColor("red");
@@ -56,7 +61,7 @@ const TimeSheetByProject = () => {
     const fetchProjects = async () => {
       try {
         const response = await axios.post(
-          `http://localhost:5016/projectId?projectID=${ID}&name=${UserName.username}`,
+          `http://localhost:5016/api/TimeSheet/projectId?projectID=${ID}&name=${UserName.username}`,
           null,
           { headers: { "Content-Type": "application/json" } }
         );

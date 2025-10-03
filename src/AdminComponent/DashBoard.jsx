@@ -29,12 +29,15 @@ function Dashboard() {
       console.log("No token found! Redirect to login or show error");
       return;
     }
-    fetch("http://localhost:5016/logout", {
+    const res=fetch("http://localhost:5016/logout", {
       method: "POST",
       headers: {
         Authorization: `Bearer ${token}`,
       },
+    }).then((response) =>res.json()).then((date) => {alert(date.message)}).catch((error) => {
+      console.error("Error during logout:", error);
     });
+   
     localStorage.removeItem("username");
     localStorage.removeItem("token");
     navigate("/");
