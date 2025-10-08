@@ -3,12 +3,12 @@ import Table from "../tableComponent/Table.jsx";
 import axios from "axios";
 
 const Task = () => {
-  const [allData, setAllData] = useState([]); // Full data from API
-  const [filteredData, setFilteredData] = useState([]); // Data after filters
+  const [allData, setAllData] = useState([]);
+  const [filteredData, setFilteredData] = useState([]);
   const [userFilter, setUserFilter] = useState("");
   const [projectFilter, setProjectFilter] = useState("");
   const [yearFilter, setYearFilter] = useState("");
-  const [monthFilter, setMonthFilter] = useState(""); // 1,3,6
+  const [monthFilter, setMonthFilter] = useState(""); // 1-12
   const [totalHours, setTotalHours] = useState(0);
 
   const columns = [
@@ -20,18 +20,32 @@ const Task = () => {
     { header: "Hours", accessor: "hours" },
   ];
 
+  const monthNames = [
+    "January", "February", "March", "April",
+    "May", "June", "July", "August",
+    "September", "October", "November", "December"
+  ];
+
+  // Fetch filtered data from backend
   const fetchTasks = async () => {
     try {
-      const response = await axios.get("http://localhost:5016/api/TimeSheet/All");
+      const params = {
+        userName: userFilter || undefined,
+        projectName: projectFilter || undefined,
+        year: yearFilter || undefined,
+        month: monthFilter || undefined,
+      };
 
-      // Format data
-      const formattedData = response.data.map((task) => {
+      const response = await axios.get("http://localhost:5016/api/TimeSheet/All", { params });
+
+      const formattedData = response.data.map(task => {
         let hours = task.hours;
+        console.log("Raw hours:", hours);
         if (typeof hours === "string" && hours.includes(":")) {
-          const [h, m] = hours.split(":").map((x) => parseFloat(x));
-          hours = h + (0.1 * m);
+          const [h, m] = hours.split(":").map(x => parseFloat(x));
+          hours = h + (m / 60); 
         } else {
-          hours = parseFloat(hours);
+          hours = parseFloat(hours) || 0;
         }
 
         return {
@@ -47,7 +61,22 @@ const Task = () => {
 
       setAllData(formattedData);
       setFilteredData(formattedData);
-      setTotalHours(formattedData.reduce((sum, item) => sum + item.hours, 0));
+    const totalDecimalHours = formattedData.reduce((sum, item) => sum + item.hours, 0);
+
+// Separate hours and minutes
+const hours = Math.floor(totalDecimalHours);
+const minutes = Math.round((totalDecimalHours - hours) * 60);
+
+// If minutes reach 60, carry over to hours
+const finalHours = hours + Math.floor(minutes / 60);
+const finalMinutes = minutes % 60;
+
+// Format as HH.MM
+const formattedTotal = Number(`${finalHours}.${finalMinutes.toString().padStart(2, '0')}`);
+
+setTotalHours(formattedTotal);
+      console.log("Formatted Data:", formattedData);
+      console.log("Total Hours:", totalHours);
     } catch (error) {
       console.error("Error fetching tasks:", error);
     }
@@ -55,29 +84,12 @@ const Task = () => {
 
   useEffect(() => {
     fetchTasks();
-  }, []);
+  }, [userFilter, projectFilter, yearFilter, monthFilter]);
 
-  // Filter data whenever a filter changes
-  useEffect(() => {
-    let data = allData;
-
-    if (userFilter) data = data.filter(d => d.UserName === userFilter);
-    if (projectFilter) data = data.filter(d => d.projectName === projectFilter);
-    if (yearFilter) data = data.filter(d => new Date(d.date).getFullYear() === Number(yearFilter));
-    if (monthFilter) data = data.filter(d => {
-      const monthsAgo = Number(monthFilter);
-      const cutoff = new Date();
-      cutoff.setMonth(cutoff.getMonth() - monthsAgo);
-      return new Date(d.date) >= cutoff;
-    });
-
-    setFilteredData(data);
-    setTotalHours(data.reduce((sum, item) => sum + item.hours, 0));
-  }, [userFilter, projectFilter, yearFilter, monthFilter, allData]);
-
-  const users = Array.from(new Set(filteredData.map(d => d.UserName)));
-  const projects = Array.from(new Set(filteredData.map(d => d.projectName)));
-  const years = Array.from(new Set(filteredData.map(d => new Date(d.date).getFullYear()))).sort((a,b) => b - a);
+  // Unique filter options
+  const users = Array.from(new Set(allData.map(d => d.UserName))).sort();
+  const projects = Array.from(new Set(allData.map(d => d.projectName))).sort();
+  const years = Array.from(new Set(allData.map(d => new Date(d.date).getFullYear()))).sort((a, b) => b - a);
 
   return (
     <div style={{ padding: "20px" }}>
@@ -100,11 +112,12 @@ const Task = () => {
           {years.map(year => <option key={year} value={year}>{year}</option>)}
         </select>
 
+        {/* Month Filter with Names */}
         <select value={monthFilter} onChange={(e) => setMonthFilter(e.target.value)}>
           <option value="">All Months</option>
-          <option value="1">Last 1 Month</option>
-          <option value="3">Last 3 Months</option>
-          <option value="6">Last 6 Months</option>
+          {monthNames.map((month, index) => (
+            <option key={index} value={index + 1}>{month}</option>
+          ))}
         </select>
       </div>
 

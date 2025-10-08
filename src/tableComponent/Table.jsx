@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 
 const Table = ({ columns, data, Title, backPath = "/DashBoard" ,totalHours }) => {
   const navigate = useNavigate();
-   console.log("Table received:", totalHours); // here it work fine
+
   const handleBack = () => {
     navigate(backPath);
   };
